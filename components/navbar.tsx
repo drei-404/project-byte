@@ -9,6 +9,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import { cn } from "@/lib/utils";
 
 
 export function Navbar() {
@@ -16,24 +17,36 @@ export function Navbar() {
   return (
     <NavigationMenu>
       <NavigationMenuList className="flex-wrap">
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+        <NavigationMenuItem className="transparent">
+          <NavigationMenuLink asChild className={cn(
+            navigationMenuTriggerStyle(),
+            "bg-transparent"
+          )}>
             <Link href="/about">Home</Link>
           </NavigationMenuLink>
 
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+          <NavigationMenuLink asChild className={cn(
+            navigationMenuTriggerStyle(),
+            "bg-transparent"
+          )}>
             <Link href="/about">News</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+          <NavigationMenuLink asChild className={cn(
+            navigationMenuTriggerStyle(),
+            "bg-transparent"
+          )}>
             <Link href="/about">Our Partners</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+          <NavigationMenuLink asChild className={cn(
+            navigationMenuTriggerStyle(),
+            "bg-transparent"
+          )}>
             <Link href="/about">Contact Us</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>

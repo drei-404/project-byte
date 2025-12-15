@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/navbar";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import { ModeToggle } from "@/components/ModeToogle";
-import { DotBackground } from "@/components/DotBackground";
+import { ModeToggle } from "@/components/mode-toogle";
+import { DotBackground } from "@/components/dot-background";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,7 +42,8 @@ export default function RootLayout({
             <DotBackground />
 
           {/* ================ Navbar Section ================ */}
-          <nav className="flex justify-between px-8 py-4">
+          <nav className="flex justify-between px-8 py-4 sticky top-0 bg-white/50 dark:bg-neutral-900/30
+">
             <div className="flex items-center text-xl text-[#154091] font-bold">
               <img
                 src={"/images/byte-logo-raw-nobg.png"}

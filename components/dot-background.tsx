@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 
 export function DotBackground() {
+
+  // Avoid hydration mismatch
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -14,10 +16,10 @@ export function DotBackground() {
     <>
     <div
       className={cn(
-        "fixed inset-0 -z-10 pointer-events-none opacity-5",
+        "fixed inset-0 -z-10 pointer-events-none opacity-5 dark:opacity-5",
         "bg-size-[20px_20px]",
         "bg-[radial-gradient(#154091_1px,transparent_2px)]",
-        "dark:[background-image:linear-gradient(to_right,#262626_.5px,transparent_.5px)",
+        "dark:[background-image:linear-gradient(to_right,#262626_1px,transparent_2px)",
         "bg-white dark:bg-black"
       )}
     />
