@@ -3,7 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import { ModeToggle } from "@/components/Mode-Toogle";
+import { ModeToggle } from "@/components/ModeToogle";
+import { DotBackground } from "@/components/DotBackground";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -36,6 +37,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+           <div className="relative min-h-screen">
+            {/* ================ Background ================ */}
+            <DotBackground />
 
           {/* ================ Navbar Section ================ */}
           <nav className="flex justify-between px-8 py-4">
@@ -55,7 +59,7 @@ export default function RootLayout({
           </nav>
 
           {children}
-
+          </div>
         </ThemeProvider>
       </body>
     </html>
