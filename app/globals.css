@@ -44,6 +44,15 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+  --font-size-2xs: 0.5625rem;   /* 6.75px */
+  --font-size-xs: 0.75rem;      /* 9px    */
+  --font-size-base: 1rem;       /* 12px   */   /* use as your normal text */
+  --font-size-md: 1.3333rem;    /* 16px   */
+  --font-size-lg: 1.7767rem;    /* 21.32px*/
+  --font-size-xl: 2.3683rem;    /* 28.42px*/
+  --font-size-2xl: 3.1575rem;   /* 37.89px*/
+  --font-size-3xl: 4.2083rem;   /* 50.5px */
+  --font-size-4xl: 5.61rem;     /* 67.32px*/
 }
 
 :root {
