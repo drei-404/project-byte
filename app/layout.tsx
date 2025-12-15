@@ -38,9 +38,20 @@ export default function RootLayout({
         >
 
           {/* ================ Navbar Section ================ */}
-          <nav className="flex justify-end px-8 py-4 gap-4">
-            <Navbar />
-            <ModeToggle />
+          <nav className="flex justify-between px-8 py-4">
+            <div className="flex items-center text-xl text-[#154091] font-bold">
+              <img
+                src={"/images/byte-logo-raw-nobg.png"}
+                className="h-12 w-12"
+                alt="BYTE Logo"
+              />
+              BYTE
+            </div>
+
+            <div className="flex gap-4 items-center">
+              <Navbar />
+              <ModeToggle />
+            </div>
           </nav>
 
           {children}
