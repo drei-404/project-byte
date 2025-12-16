@@ -42,8 +42,7 @@ export default function RootLayout({
             <DotBackground />
 
           {/* ================ Navbar Section ================ */}
-          <nav className="flex justify-between px-8 py-4 sticky top-0 bg-white/50 dark:bg-neutral-900/30
-">
+          <nav className="flex justify-between px-8 py-4 sticky top-0 z-20 bg-white/90 dark:bg-neutral-900/30">
             <div className="flex items-center text-xl text-[#154091] font-bold">
               <img
                 src={"/images/byte-logo-raw-nobg.png"}
