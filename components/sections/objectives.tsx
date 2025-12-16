@@ -40,10 +40,10 @@ export default function Objectives() {
             return (
               <div className="flex-1 ">
                 <div className="flex flex-col items-center ">
-                  <div className="border w-fit p-2 rounded-4xl bg-background z-1 -mb-5">
+                  <div className="border w-fit p-2 rounded-4xl bg-background z-1 -mb-5 shadow-lg shadow-amber-300 dark:shadow-none">
                     <Icon />
                   </div>
-                  <div className="border rounded-xl p-6 bg-background">
+                  <div className="border rounded-xl pt-10 pb-8 px-6 bg-background">
                     <p>{item.context}</p>
                   </div>
                 </div>
