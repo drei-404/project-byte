@@ -1,3 +1,5 @@
+"use client"
+
 import { GridBackground } from "../grid-background";
 
 export default function Hero() {
