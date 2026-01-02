@@ -6,7 +6,7 @@ import ResourcesNeeded from "./resources-needed";
 export default function ProgramBlueprint() {
   return (
     <>
-      <div className="relative mx-auto my-10 flex max-w-7xl flex-col items-center justify-center gap-4 px-8 py-20 ">
+      <div className="relative mx-auto my-10 flex max-w-7xl flex-col items-center justify-center gap-4 px-8 py-20">
         <div className="flex flex-col gap-4 items-center mb-12">
           <h1 className="text-6xl font-extrabold text-[#154091] text-shadow-lg">
             Program Blueprint
