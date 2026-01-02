@@ -17,7 +17,7 @@ export default function ProgramBlueprint() {
           </div>
         </div>
 
-        <div className="relative flex flex-row p-8 gap-8 border rounded-4xl shadow-2xl">
+        <div className="relative flex flex-row p-8 gap-8 border rounded-4xl shadow-2xl bg-background">
           <Objectives />
           <ResourcesNeeded />
         </div>
