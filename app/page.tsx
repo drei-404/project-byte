@@ -1,11 +1,11 @@
 import Hero from "@/components/sections/hero";
-import Objectives from "@/components/sections/objectives";
+import ProgramBlueprint from "@/components/sections/program-blueprint";
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <Objectives />
+      <ProgramBlueprint />
     </>
   );
 }
