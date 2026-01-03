@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 import { ModeToggle } from "@/components/mode-toogle";
 import { DotBackground } from "@/components/dot-background";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
+import Footer from "@/components/sections/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -69,6 +70,8 @@ export default function RootLayout({
 
             {children}
           </div>
+
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
