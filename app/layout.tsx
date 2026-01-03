@@ -48,7 +48,7 @@ export default function RootLayout({
               borderRadius="0px"
               shadowIntensity="none"
               glowIntensity="none"
-              className="relevant col-span-2 p-6 bg-background/8 sticky top-0 z-20 w-full"
+              className="relevant col-span-2 p-6 bg-background/8 sticky top-0 z-50 w-full"
               draggable={false}
             >
               <div className="flex justify-between sticky top-0 z-20">
