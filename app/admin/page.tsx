@@ -1,25 +1,15 @@
 import prisma from "@/lib/db";
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
   FieldLegend,
-  FieldSeparator,
   FieldSet,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { div } from "motion/react-client";
 import createNews from "@/actions/actions";
 
 type PageProps = {
@@ -28,7 +18,6 @@ type PageProps = {
 
 
 export default async function AdminPage({ params }: PageProps) {
-  const { id } = await params
 
   const user = await prisma.user.findUnique({
     where: { id: "1" },
@@ -74,27 +63,6 @@ export default async function AdminPage({ params }: PageProps) {
                   placeholder="Author"
                   required
                 />
-              </Field>
-            </FieldGroup>
-          </FieldSet>
-          <FieldSet>
-            <FieldLegend>Billing Address</FieldLegend>
-            <FieldDescription>
-              The billing address associated with your payment method
-            </FieldDescription>
-            <FieldGroup>
-              <Field orientation="horizontal">
-                <Checkbox
-                  id="checkout-7j9-same-as-shipping-wgm"
-                  name="publish"
-                  defaultChecked
-                />
-                <FieldLabel
-                  htmlFor="checkout-7j9-same-as-shipping-wgm"
-                  className="font-normal"
-                >
-                  Same as shipping address
-                </FieldLabel>
               </Field>
             </FieldGroup>
           </FieldSet>
