@@ -22,7 +22,7 @@ export function Navbar() {
             navigationMenuTriggerStyle(),
             "bg-transparent"
           )}>
-            <Link href="/about">Home</Link>
+            <Link href="/">Home</Link>
           </NavigationMenuLink>
 
         </NavigationMenuItem>
@@ -31,7 +31,7 @@ export function Navbar() {
             navigationMenuTriggerStyle(),
             "bg-transparent"
           )}>
-            <Link href="/about">News</Link>
+            <Link href="/news">News</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
