@@ -2,7 +2,15 @@ import prisma from "@/lib/db";
 import Link from "next/link";
 
 export default async function News() {
-  const news = await prisma.newsPost.findMany();
+  const news = await prisma.newsPost.findMany({
+    where: {
+      published: true,
+    },
+    orderBy: {
+      createdAt: "desc"
+    },
+    take: 12 // Pagination will take only 12 per page
+  });
 
   return (
     <div className="p-20">
