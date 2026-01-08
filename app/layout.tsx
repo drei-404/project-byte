@@ -42,30 +42,7 @@ export default function RootLayout({
             {/* ================ Background ================ */}
             <DotBackground />
 
-            {/* ================ Navbar Section ================ */}
-            <LiquidGlassCard
-              borderRadius="0px"
-              shadowIntensity="none"
-              glowIntensity="none"
-              className="relevant col-span-2 p-6 bg-background/8 sticky top-0 z-50 w-full"
-              draggable={false}
-            >
-              <div className="flex justify-between sticky top-0 z-20">
-                <div className="flex items-center text-xl text-[#154091] font-bold">
-                  <img
-                    src={"/images/byte-logo-raw-nobg.png"}
-                    className="h-12 w-12"
-                    alt="BYTE Logo"
-                  />
-                  BYTE
-                </div>
-
-                <div className="flex gap-4 items-center">
-                  <Navbar />
-                  <ModeToggle />
-                </div>
-              </div>
-            </LiquidGlassCard>
+            
 
             {children}
           </div>
