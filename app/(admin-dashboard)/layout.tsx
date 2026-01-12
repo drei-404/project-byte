@@ -1,0 +1,16 @@
+import AdminSidebar from "@/components/admin-sidebar";
+import Provider from "@/components/provider";
+import React from "react";
+
+const Layout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <>
+      <Provider>
+        <AdminSidebar />
+        {children}
+      </Provider>
+    </>
+  );
+};
+
+export default Layout;
