@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import createNews from "@/actions/actions";
+import { signOut } from "next-auth/react";
 
 type PageProps = {
   params: Promise<{ id: string }>
@@ -23,7 +24,12 @@ export default async function AdminPage({ params }: PageProps) {
     where: { id: "1" },
   });
 
+  const Logout = async () => {
+    signOut()
+  }
+
   return (
+    <>
     <div className="flex justify-center">
     <div className="w-full max-w-md">
       <form action={createNews}>
@@ -93,6 +99,7 @@ export default async function AdminPage({ params }: PageProps) {
       </form>
     </div>
     </div>
+    </>
   )
 }
 

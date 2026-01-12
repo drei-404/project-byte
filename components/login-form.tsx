@@ -12,14 +12,37 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { signIn, useSession } from "next-auth/react"
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [email, setEmail] = useState("")
+
+  async function SingInWithEmail(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const signInResult = await signIn('email', {
+      email: email,
+      callbackUrl: "/dashboard",
+      redirect: false
+    })
+
+    if (!signInResult?.ok) {
+      console.error("Sign in failed");
+      return;
+    }
+
+    setEmail("")
+  }
+
+  const { data:session } = useSession()
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <form>
+      <form onSubmit={SingInWithEmail}>
         <FieldGroup>
           <div className="flex flex-col items-center gap-2 text-center">
             <a
@@ -44,6 +67,7 @@ export function LoginForm({
           <Field>
             <FieldLabel htmlFor="email">Email Address</FieldLabel>
             <Input
+              onChange={(e) => setEmail(e.target.value)}
               id="email"
               type="email"
               placeholder="Enter you email address"

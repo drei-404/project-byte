@@ -1,12 +1,13 @@
-import AdminSidebar from '@/components/admin-sidebar'
-import React from 'react'
+import AdminSidebar from "@/components/admin-sidebar";
+import Provider from "@/components/provider";
+import React from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      {children}
+      <Provider>{children}</Provider>
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
