@@ -1,7 +1,7 @@
-import Footer from "@/components/sections/footer";
-import Hero from "@/components/sections/hero";
-import LatestNews from "@/components/sections/latest-news";
-import ProgramBlueprint from "@/components/sections/program-blueprint/program-blueprint";
+import Footer from "@/components/sections/public/footer";
+import Hero from "@/components/sections/public/hero";
+import LatestNews from "@/components/sections/public/latest-news";
+import ProgramBlueprint from "@/components/sections/public/program-blueprint/program-blueprint";
 
 export default function Home() {
   return (
