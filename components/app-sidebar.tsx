@@ -65,16 +65,6 @@ const data = {
       url: "/news-post",
       icon: Newspaper,
     },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-    },
   ],
 };
 

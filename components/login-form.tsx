@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { signIn, useSession } from "next-auth/react"
 
 export function LoginForm({
   className,
@@ -24,19 +23,30 @@ export function LoginForm({
   async function SingInWithEmail(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const signInResult = await signIn('email', {
-      email: email,
-      callbackUrl: "/dashboard",
-      redirect: false
-    })
+    try {
+    const res = await fetch("/api/auth/request-magic-link", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
 
-    if (!signInResult?.ok) {
-      console.error("Sign in failed");
-      return;
+    if (res.status === 401) {
+      throw new Error("Unauthorized");
     }
 
-    setEmail("")
+    if (!res.ok) {
+      throw new Error("Something went wrong");
+    }
+
+    // Success — magic link sent
+    setEmail("");
+    alert("Check your email for the login link.");
+  } catch (err: any) {
+    alert(err.message);
   }
+  console.log("EMAIL:", email);
+  console.log("APP URL:", process.env.NEXT_PUBLIC_APP_URL);
+}
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
