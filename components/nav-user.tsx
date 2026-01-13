@@ -43,7 +43,7 @@ export function NavUser({
   const { isMobile } = useSidebar()
 
   const Logout = async () => {
-    signOut()
+    signOut({ callbackUrl: "/admin" })
   }
 
   return (
