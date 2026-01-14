@@ -11,15 +11,36 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import createNews from "@/actions/actions";
+import { DataTable } from "./data-table";
+import { columns } from "./columns";
+
+import { data } from "./data";
 
 type PageProps = {
   params: Promise<{ id: string }>;
 };
 
+type NewsPostRow = {
+  title: string
+  createdAt: string
+  updatedAt: string
+}
+
 export default async function NewsPost({ params }: PageProps) {
   const user = await prisma.user.findUnique({
     where: { id: "1" },
   });
+
+  const posts = await prisma.newsPost.findMany({
+    orderBy: { createdAt: "desc" },
+  })
+
+  const data: NewsPostRow[] = posts.map(post => ({
+    title: post.title,
+    createdAt: post.createdAt.toISOString(),
+    updatedAt: post.updatedAt.toISOString(),
+  }))
+
 
 
   return (
@@ -91,6 +112,7 @@ export default async function NewsPost({ params }: PageProps) {
           </form>
         </div>
       </div>
+      <DataTable columns={columns} data={data} />
     </>
   );
 }
