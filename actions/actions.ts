@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/db";
+import { revalidatePath } from "next/cache";
 
 
 export default async function createNews(formData: FormData) {
@@ -12,4 +13,5 @@ export default async function createNews(formData: FormData) {
       authorID: formData.get("author") as string,
     },
   });
+  revalidatePath("/news-post");
 }
