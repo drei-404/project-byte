@@ -14,14 +14,13 @@ import createNews from "@/actions/actions";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 
-import { data } from "./data";
-
 type PageProps = {
   params: Promise<{ id: string }>;
 };
 
 type NewsPostRow = {
   title: string
+  published: boolean
   createdAt: string
   updatedAt: string
 }
@@ -31,14 +30,15 @@ export default async function NewsPost({ params }: PageProps) {
     where: { id: "1" },
   });
 
-  const posts = await prisma.newsPost.findMany({
+  const news = await prisma.newsPost.findMany({
     orderBy: { createdAt: "desc" },
   })
 
-  const data: NewsPostRow[] = posts.map(post => ({
-    title: post.title,
-    createdAt: post.createdAt.toISOString(),
-    updatedAt: post.updatedAt.toISOString(),
+  const data: NewsPostRow[] = news.map(news => ({
+    title: news.title,
+    published: news.published,
+    createdAt: news.createdAt.toISOString(),
+    updatedAt: news.updatedAt.toISOString(),
   }))
 
 

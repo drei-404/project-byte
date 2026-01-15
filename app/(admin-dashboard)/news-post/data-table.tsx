@@ -56,30 +56,38 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="mx-10 mt-20">
+      {/* ----------- Filter and Add News ----------- */}
       <div className="relevant flex items-center justify-between">
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter title..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+        <div className="flex items-center py-4">
+          <Input
+            placeholder="Filter title..."
+            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("title")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        </div>
+        <Button variant="outline" size="sm">
+          <Plus />
+          <span className="hidden lg:inline">Add News</span>
+        </Button>
       </div>
-      <Button variant="outline" size="sm">
-        <Plus />
-        <span className="hidden lg:inline">Add News</span>
-      </Button>
-      </div>
+      {/* ----------- End of Filter and Add News ----------- */}
+
       <div className="overflow-hidden rounded-md border">
-        <Table>
+        <Table className="table-fixed w-full">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead
+                      key={header.id}
+                      style={{
+                        width: header.getSize(),
+                      }}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -100,7 +108,12 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      style={{
+                        width: cell.column.getSize(),
+                      }}
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
