@@ -73,10 +73,10 @@ enum AdminRole {
 }
 
 model NewsPost {
-  id        String  @id @default(cuid())
-  title     String
-  content   String?
-  published Boolean @default(false)
+  id      String  @id @default(cuid())
+  title   String
+  content String?
+  status  Boolean @default(false)
 
   author   User   @relation(fields: [authorID], references: [id])
   authorID String

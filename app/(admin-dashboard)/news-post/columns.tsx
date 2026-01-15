@@ -17,7 +17,7 @@ import { IconCircleCheckFilled, IconLoader } from "@tabler/icons-react";
 
 export type NewsPost = {
   title: string;
-  published: boolean;
+  status: boolean;
   createdAt: string;
   updatedAt: string;
 };
@@ -40,10 +40,10 @@ export const columns: ColumnDef<NewsPost>[] = [
     },
   },
   {
-    accessorKey: "published",
-    header: () => <div className="text-center">Publish Status</div>,
+    accessorKey: "status",
+    header: () => <div className="text-center">Status</div>,
     cell: ({ row }) => {
-      const published = row.original.published;
+      const published = row.original.status;
 
       return (
         <div className="flex justify-center">

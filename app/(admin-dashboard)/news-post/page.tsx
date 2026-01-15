@@ -20,7 +20,7 @@ type PageProps = {
 
 type NewsPostRow = {
   title: string
-  published: boolean
+  status: boolean
   createdAt: string
   updatedAt: string
 }
@@ -36,7 +36,7 @@ export default async function NewsPost({ params }: PageProps) {
 
   const data: NewsPostRow[] = news.map(news => ({
     title: news.title,
-    published: news.published,
+    status: news.status,
     createdAt: news.createdAt.toISOString(),
     updatedAt: news.updatedAt.toISOString(),
   }))
