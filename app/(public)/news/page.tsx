@@ -4,7 +4,7 @@ import Link from "next/link";
 export default async function News() {
   const news = await prisma.newsPost.findMany({
     where: {
-      published: true,
+      status: true,
     },
     orderBy: {
       createdAt: "desc"
