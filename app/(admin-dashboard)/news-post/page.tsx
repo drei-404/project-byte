@@ -68,23 +68,7 @@ export default async function NewsPost({ params }: PageProps) {
                   </Field>
                 </FieldGroup>
               </FieldSet>
-              <FieldSet className="">
-                {/* ------------- Author ------------- */}
-
-                <FieldGroup>
-                  <Field>
-                    <FieldLabel htmlFor="checkout-7j9-card-name-43j">
-                      Author
-                    </FieldLabel>
-                    <Input
-                      value={1}
-                      name="author"
-                      placeholder="Author"
-                      required
-                    />
-                  </Field>
-                </FieldGroup>
-              </FieldSet>
+              
               <FieldSet>
                 {/* ------------- Content ------------- */}
 

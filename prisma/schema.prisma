@@ -52,8 +52,6 @@ model User {
   isSuspended Boolean   @default(false)
   suspendedAt DateTime?
 
-  newsPost NewsPost[]
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -77,9 +75,6 @@ model NewsPost {
   title   String
   content String?
   status  Boolean @default(false)
-
-  author   User   @relation(fields: [authorID], references: [id])
-  authorID String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
