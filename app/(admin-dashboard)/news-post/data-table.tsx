@@ -22,6 +22,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
+import Link from "next/link";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -68,10 +69,12 @@ export function DataTable<TData, TValue>({
             className="max-w-sm"
           />
         </div>
-        <Button variant="outline" size="sm">
-          <Plus />
-          <span className="hidden lg:inline">Add News</span>
-        </Button>
+        <Link href={"/news-post/create-news"}>
+          <Button variant="outline" size="sm">
+            <Plus />
+            <span className="hidden lg:inline">Add News</span>
+          </Button>
+        </Link>
       </div>
       {/* ----------- End of Filter and Add News ----------- */}
 
