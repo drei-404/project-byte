@@ -21,57 +21,72 @@ import * as React from "react";
 
 export default function CreateNewsForm() {
   const uploadFn: UploadFn = React.useCallback(
-  ({ file, onProgressChange, signal }) => {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      const formData = new FormData();
+    ({ file, onProgressChange, signal }) => {
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        const formData = new FormData();
 
-      formData.append("file", file);
+        formData.append("file", file);
 
-      xhr.open("POST", "/api/upload/nextcloud");
+        xhr.open("POST", "/api/upload/nextcloud");
 
-      xhr.upload.onprogress = (event) => {
-        if (event.lengthComputable) {
-          const percent = Math.round((event.loaded / event.total) * 100);
-          onProgressChange?.(percent);
-        }
-      };
+        xhr.upload.onprogress = (event) => {
+          if (event.lengthComputable) {
+            const percent = Math.round((event.loaded / event.total) * 100);
+            onProgressChange?.(percent);
+          }
+        };
 
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status < 300) {
-          const response = JSON.parse(xhr.responseText);
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            const response = JSON.parse(xhr.responseText);
 
-          // ✅ ONLY return what UploadFn expects
-          resolve({
-            url: response.url,
-          });
-        } else {
-          reject(
-            new Error(`Upload failed (${xhr.status}): ${xhr.responseText}`)
-          );
-        }
-      };
+            // Save the uploaded URL to state
+            setUploadedImageUrl(response.url);
 
-      xhr.onerror = () => reject(new Error("Network error"));
+            // Return object expected by Uploader
+            resolve({
+              url: response.url,
+            });
+          } else {
+            reject(
+              new Error(`Upload failed (${xhr.status}): ${xhr.responseText}`),
+            );
+          }
+        };
 
-      signal?.addEventListener("abort", () => {
-        xhr.abort();
-        reject(new Error("Upload aborted"));
+        xhr.onerror = () => reject(new Error("Network error"));
+
+        signal?.addEventListener("abort", () => {
+          xhr.abort();
+          reject(new Error("Upload aborted"));
+        });
+
+        xhr.send(formData);
       });
+    },
+    [],
+  );
 
-      xhr.send(formData);
-    });
-  },
-  [],
-);
+  const [uploadedImageUrl, setUploadedImageUrl] = React.useState<string | null>(
+    null,
+  );
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
 
+    // Pass the uploaded image URL to your action
+    await createNews(formData, uploadedImageUrl ?? undefined);
+
+    alert("News created!");
+  };
 
   return (
     <>
       <div className="flex justify-center mt-20">
         <div className="w-full max-w-md">
-          <form action={createNews}>
+          <form action={createNews} onSubmit={handleSubmit}>
             <FieldGroup>
               {/* ------------- Featured Image ------------- */}
               <FieldSet>
