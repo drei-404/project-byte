@@ -1,4 +1,5 @@
 import prisma from "@/lib/db";
+import Image from "next/image";
 import Link from "next/link";
 
 export default async function News() {
@@ -9,7 +10,6 @@ export default async function News() {
     orderBy: {
       createdAt: "desc"
     },
-    take: 12 // Pagination will take only 12 per page
   });
 
   return (
@@ -19,6 +19,16 @@ export default async function News() {
       <ul>
         {news.map((news) =>
           <li key={news.id}>
+            {news.featuredImage && (
+              <Image
+                src={`/api/image-proxy?url=${encodeURIComponent(news.featuredImage)}`}
+                alt={news.title}
+                width={800}
+                height={600}
+                unoptimized
+                className="mt-2 rounded max-w-full"
+              />
+            )}
             <Link href={`/news/${news.id}`}><strong>{news.title}</strong></Link>
             <p>{news.content}</p>
           </li>
