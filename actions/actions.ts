@@ -19,7 +19,9 @@ export default async function createNews(formData: FormData, uploadedImageUrl?: 
 export async function updateNews(
   formData: FormData,
   id: string,
-  uploadedImageUrl?: string
+  uploadedImageUrl?: string,
+  galleryUrls?: string[],
+  imagesToDelete?: string[]
 ) {
   try {
     // Validation
@@ -47,6 +49,33 @@ export async function updateNews(
       updateData.featuredImage = uploadedImageUrl;
     }
 
+    // Handle gallery images (merge new, remove deleted)
+    const needsGalleryUpdate =
+      (galleryUrls && galleryUrls.length > 0) ||
+      (imagesToDelete && imagesToDelete.length > 0);
+
+    if (needsGalleryUpdate) {
+      const existingPost = await prisma.newsPost.findUnique({
+        where: { id },
+        select: { imageGallery: true },
+      });
+      let currentGallery = existingPost?.imageGallery || [];
+
+      // Remove deleted images
+      if (imagesToDelete && imagesToDelete.length > 0) {
+        currentGallery = currentGallery.filter(
+          (url) => !imagesToDelete.includes(url)
+        );
+      }
+
+      // Add new images
+      if (galleryUrls && galleryUrls.length > 0) {
+        currentGallery = [...currentGallery, ...galleryUrls];
+      }
+
+      updateData.imageGallery = currentGallery;
+    }
+
     // Update in database
     await prisma.newsPost.update({
       where: { id },
@@ -56,6 +85,7 @@ export async function updateNews(
     // Revalidate cache
     revalidatePath("/news-post");
     revalidatePath(`/news-post/update-news/${id}`);
+    revalidatePath("/news");
   } catch (error) {
     console.error("Update news error:", error);
     throw new Error(error instanceof Error ? error.message : "Failed to update news");

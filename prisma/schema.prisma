@@ -80,4 +80,6 @@ model NewsPost {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([status, createdAt(sort: Desc)])
 }

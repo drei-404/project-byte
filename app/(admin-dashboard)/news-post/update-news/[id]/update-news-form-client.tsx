@@ -10,11 +10,15 @@ import {
   FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { updateNews } from "@/actions/actions";
 import { SingleImageDropzone } from "@/components/upload/single-image";
+import { ImageUploader } from "@/components/upload/multi-image";
 import { UploaderProvider } from "@/components/upload/uploader-provider";
 import { slugify } from "@/lib/slugify";
+import { XIcon } from "lucide-react";
 import * as React from "react";
 
 interface UpdateNewsData {
@@ -22,6 +26,7 @@ interface UpdateNewsData {
   title: string;
   content: string | null;
   featuredImage: string | null;
+  imageGallery: string[];
   status: boolean;
 }
 
@@ -33,13 +38,32 @@ export default function UpdateNewsFormClient({ initialData }: Props) {
   const [title, setTitle] = React.useState(initialData.title);
   const [content, setContent] = React.useState(initialData.content || "");
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+  const [galleryFiles, setGalleryFiles] = React.useState<File[]>([]);
+  const [existingGallery, setExistingGallery] = React.useState(initialData.imageGallery);
+  const [imagesToDelete, setImagesToDelete] = React.useState<string[]>([]);
+  const [isPublished, setIsPublished] = React.useState(initialData.status);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
-  const handleFileChange = ({ allFiles }: { allFiles: any[] }) => {
+  const handleFileChange = React.useCallback(({ allFiles }: { allFiles: any[] }) => {
     const file = allFiles[0];
     setSelectedFile(file?.file || null);
-  };
+  }, []);
+
+  const handleGalleryChange = React.useCallback(({ allFiles }: { allFiles: any[] }) => {
+    const files = allFiles
+      .filter((f: any) => f.status === "PENDING" && f.file)
+      .map((f: any) => f.file);
+    setGalleryFiles(files);
+  }, []);
+
+  // Dummy upload function - we handle uploads manually in handleSubmit
+  const noopUploadFn = React.useCallback(async () => ({ url: "" }), []);
+
+  const handleDeleteGalleryImage = React.useCallback((url: string) => {
+    setExistingGallery((prev) => prev.filter((u) => u !== url));
+    setImagesToDelete((prev) => [...prev, url]);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,13 +72,18 @@ export default function UpdateNewsFormClient({ initialData }: Props) {
 
     try {
       const formData = new FormData(e.currentTarget);
-      let finalImageUrl = initialData.featuredImage; // Keep existing by default
+      // Update status in formData based on toggle state
+      formData.set("status", String(isPublished));
 
-      // Only upload if user selected a new file
+      let finalImageUrl = initialData.featuredImage; // Keep existing by default
+      const slug = slugify(title);
+
+      // Only upload featured image if user selected a new file
       if (selectedFile) {
         const uploadFormData = new FormData();
         uploadFormData.append("file", selectedFile);
-        uploadFormData.append("slug", slugify(title));
+        uploadFormData.append("slug", slug);
+        uploadFormData.append("folder", "featured");
 
         const uploadRes = await fetch("/api/nextcloud/upload", {
           method: "POST",
@@ -63,15 +92,64 @@ export default function UpdateNewsFormClient({ initialData }: Props) {
 
         if (!uploadRes.ok) {
           const data = await uploadRes.json();
-          throw new Error(data.error || "Upload failed");
+          throw new Error(data.error || "Featured image upload failed");
         }
 
         const { url } = await uploadRes.json();
         finalImageUrl = url;
       }
 
-      // Call server action with correct signature
-      await updateNews(formData, initialData.id, finalImageUrl || undefined);
+      // Delete marked gallery images from Nextcloud in parallel
+      if (imagesToDelete.length > 0) {
+        const deletePromises = imagesToDelete.map(async (url) => {
+          const deleteRes = await fetch("/api/nextcloud/delete", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url }),
+          });
+          // Log but don't fail if deletion fails (image may already be gone)
+          if (!deleteRes.ok) {
+            console.warn(`Failed to delete image from Nextcloud: ${url}`);
+          }
+        });
+        await Promise.all(deletePromises);
+      }
+
+      // Upload gallery images in parallel
+      const galleryUrls: string[] = [];
+      if (galleryFiles.length > 0) {
+        const galleryUploads = galleryFiles.map(async (file) => {
+          const uploadFormData = new FormData();
+          uploadFormData.append("file", file);
+          uploadFormData.append("slug", slug);
+          uploadFormData.append("folder", "gallery");
+
+          const uploadRes = await fetch("/api/nextcloud/upload", {
+            method: "POST",
+            body: uploadFormData,
+          });
+
+          if (!uploadRes.ok) {
+            const data = await uploadRes.json();
+            throw new Error(data.error || `Gallery image upload failed: ${file.name}`);
+          }
+
+          const { url } = await uploadRes.json();
+          return url;
+        });
+
+        const uploadedUrls = await Promise.all(galleryUploads);
+        galleryUrls.push(...uploadedUrls);
+      }
+
+      // Call server action with gallery URLs and images to delete
+      await updateNews(
+        formData,
+        initialData.id,
+        finalImageUrl || undefined,
+        galleryUrls.length > 0 ? galleryUrls : undefined,
+        imagesToDelete.length > 0 ? imagesToDelete : undefined
+      );
 
       alert("News updated successfully!");
     } catch (err) {
@@ -115,7 +193,7 @@ export default function UpdateNewsFormClient({ initialData }: Props) {
                     ? "New Featured Image"
                     : "Upload New Featured Image (Optional)"}
                 </FieldLabel>
-                <UploaderProvider autoUpload={false} onChange={handleFileChange}>
+                <UploaderProvider autoUpload={false} onChange={handleFileChange} uploadFn={noopUploadFn}>
                   <SingleImageDropzone
                     width={200}
                     height={200}
@@ -164,12 +242,68 @@ export default function UpdateNewsFormClient({ initialData }: Props) {
               </FieldGroup>
             </FieldSet>
 
-            {/* Status (hidden field) */}
-            <input type="hidden" name="status" value={String(initialData.status)} />
+            {/* Image Gallery */}
+            <FieldSet>
+              <FieldGroup>
+                <FieldLabel>Image Gallery</FieldLabel>
+
+                {/* Existing gallery images with delete buttons */}
+                {existingGallery.length > 0 && (
+                  <div className="mb-4">
+                    <p className="text-sm text-muted-foreground mb-2">
+                      Existing images ({existingGallery.length})
+                    </p>
+                    <div className="grid grid-cols-3 gap-2">
+                      {existingGallery.map((url, index) => (
+                        <div key={url} className="relative group">
+                          <img
+                            src={url}
+                            alt={`Gallery image ${index + 1}`}
+                            className="w-full aspect-square object-cover rounded border"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteGalleryImage(url)}
+                            className="absolute top-1 right-1 p-1 bg-background/80 hover:bg-destructive hover:text-destructive-foreground rounded-full border shadow-sm transition-colors"
+                          >
+                            <XIcon className="h-4 w-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Upload new gallery images */}
+                <p className="text-sm text-muted-foreground mb-2">
+                  Add new images (up to 10)
+                </p>
+                <UploaderProvider autoUpload={false} onChange={handleGalleryChange} uploadFn={noopUploadFn}>
+                  <ImageUploader
+                    maxFiles={10}
+                    maxSize={1024 * 1024 * 5}
+                  />
+                </UploaderProvider>
+              </FieldGroup>
+            </FieldSet>
+
+            {/* Publish Toggle */}
+            <div className="flex items-center justify-between p-4 border rounded-lg bg-muted/20">
+              <div className="space-y-0.5">
+                <Label className="text-base">Publish Status</Label>
+                <p className="text-sm text-muted-foreground">
+                  {isPublished ? "This post is visible to readers" : "This post is saved as draft"}
+                </p>
+              </div>
+              <Switch checked={isPublished} onCheckedChange={setIsPublished} />
+            </div>
+
+            {/* Status (hidden field for form submission) */}
+            <input type="hidden" name="status" value={String(isPublished)} />
 
             <Field orientation="horizontal">
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Updating..." : "Update"}
+                {isSubmitting ? "Updating..." : "Save Changes"}
               </Button>
               <Button variant="outline" type="button" disabled={isSubmitting}>
                 Cancel

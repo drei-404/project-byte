@@ -16,6 +16,7 @@ export default async function UpdateNewsPage({ params }: PageProps) {
       title: true,
       content: true,
       featuredImage: true,
+      imageGallery: true,
       status: true,
     },
   });

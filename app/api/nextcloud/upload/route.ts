@@ -7,6 +7,7 @@ export async function POST(req: Request) {
     const formData = await req.formData();
     const file = formData.get("file") as File;
     const slug = formData.get("slug") as string;
+    const folder = (formData.get("folder") as string) || "featured";
 
     // Validation
     if (!file) {
@@ -15,6 +16,11 @@ export async function POST(req: Request) {
 
     if (!slug) {
       return NextResponse.json({ error: "Slug is required" }, { status: 400 });
+    }
+
+    // Validate folder is either featured or gallery
+    if (folder !== "featured" && folder !== "gallery") {
+      return NextResponse.json({ error: "Invalid folder (must be 'featured' or 'gallery')" }, { status: 400 });
     }
 
     // Sanitize slug (prevent path traversal)
@@ -43,7 +49,7 @@ export async function POST(req: Request) {
     const password = process.env.NEXTCLOUD_APP_PASSWORD!;
 
     // Construct nested path matching create pattern
-    const folderPath = `byte-images/${sanitizedSlug}/featured`;
+    const folderPath = `byte-images/${sanitizedSlug}/${folder}`;
     const nextcloudUrl = `${baseUrl}/${username}/${folderPath}/${filename}`;
 
     const auth = Buffer.from(`${email}:${password}`).toString("base64");
@@ -64,7 +70,7 @@ export async function POST(req: Request) {
       if (ncRes.status === 404) {
         // Auto-create folder structure
         const basePath = `${baseUrl}/${username}/byte-images/${sanitizedSlug}`;
-        const featuredPath = `${basePath}/featured`;
+        const targetFolderPath = `${basePath}/${folder}`;
 
         // Create base folder
         await fetch(basePath, {
@@ -72,8 +78,8 @@ export async function POST(req: Request) {
           headers: { Authorization: `Basic ${auth}` },
         });
 
-        // Create featured folder
-        await fetch(featuredPath, {
+        // Create target folder (featured or gallery)
+        await fetch(targetFolderPath, {
           method: "MKCOL",
           headers: { Authorization: `Basic ${auth}` },
         });
