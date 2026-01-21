@@ -30,7 +30,7 @@ export default function CreateNewsForm() {
       const folderForm = new FormData();
       folderForm.append("title", title);
 
-      const folderRes = await fetch("/api/create-folder/nextcloud", {
+      const folderRes = await fetch("/api/nextcloud/create-folder", {
         method: "POST",
         body: folderForm,
       });

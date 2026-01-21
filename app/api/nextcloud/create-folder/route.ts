@@ -1,14 +1,7 @@
 import { NextResponse } from "next/server";
+import { slugify } from "@/lib/slugify";
 
 export const runtime = "nodejs";
-
-function slugify(title: string) {
-  return title
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
 
 async function createFolder(
   url: string,

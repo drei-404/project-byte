@@ -24,6 +24,7 @@ export default async function NewsPost({ params }: PageProps) {
   })
 
   const data: NewsPostRow[] = news.map(news => ({
+    id: news.id,
     title: news.title,
     status: news.status,
     createdAt: news.createdAt.toISOString(),

@@ -14,8 +14,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { IconCircleCheckFilled, IconLoader } from "@tabler/icons-react";
+import Link from "next/link";
 
 export type NewsPost = {
+  id: string;
   title: string;
   status: boolean;
   createdAt: string;
@@ -88,7 +90,10 @@ export const columns: ColumnDef<NewsPost>[] = [
   {
     id: "actions",
     size: 60,
-    cell: ({ row }) => (
+    cell: ({ row }) => {
+      const newsId = row.original.id;
+
+      return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -99,9 +104,11 @@ export const columns: ColumnDef<NewsPost>[] = [
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Update</DropdownMenuItem>
+          <Link href={`/news-post/update-news/${newsId}`} passHref>
+          <DropdownMenuItem asChild><span>Update</span></DropdownMenuItem>
+          </Link>
         </DropdownMenuContent>
       </DropdownMenu>
-    ),
+    )},
   },
 ];
