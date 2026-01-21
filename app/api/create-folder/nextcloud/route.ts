@@ -10,6 +10,24 @@ function slugify(title: string) {
     .replace(/(^-|-$)/g, "");
 }
 
+async function createFolder(
+  url: string,
+  auth: string
+): Promise<void> {
+  const res = await fetch(url, {
+    method: "MKCOL",
+    headers: {
+      Authorization: `Basic ${auth}`,
+    },
+  });
+
+  // 201 = created, 405 = already exists
+  if (![201, 405].includes(res.status)) {
+    const text = await res.text();
+    throw new Error(text || "Failed to create folder");
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const formData = await req.formData();
@@ -28,34 +46,45 @@ export async function POST(req: Request) {
     const password = process.env.NEXTCLOUD_APP_PASSWORD!;
 
     const folderName = slugify(title);
-    const folderPath = `byte-images/${folderName}`;
-    const folderUrl = `${baseUrl}/${username}/${folderPath}`;
+
+    const baseFolderPath = `byte-images/${folderName}`;
+    const featuredPath = `${baseFolderPath}/featured`;
+    const galleryPath = `${baseFolderPath}/gallery`;
 
     const auth = Buffer.from(`${email}:${password}`).toString("base64");
 
-    const mkcolRes = await fetch(folderUrl, {
-      method: "MKCOL",
-      headers: {
-        Authorization: `Basic ${auth}`,
-      },
-    });
+    /** 1️⃣ Create base folder */
+    await createFolder(
+      `${baseUrl}/${username}/${baseFolderPath}`,
+      auth
+    );
 
-    // 201 = created, 405 = already exists
-    if (![201, 405].includes(mkcolRes.status)) {
-      const text = await mkcolRes.text();
-      return NextResponse.json(
-        { error: "Failed to create folder", details: text },
-        { status: 500 }
-      );
-    }
+    /** 2️⃣ Create featured folder */
+    await createFolder(
+      `${baseUrl}/${username}/${featuredPath}`,
+      auth
+    );
+
+    /** 3️⃣ Create gallery folder */
+    await createFolder(
+      `${baseUrl}/${username}/${galleryPath}`,
+      auth
+    );
 
     return NextResponse.json({
       success: true,
-      folder: folderPath,
+      folders: {
+        base: baseFolderPath,
+        featured: featuredPath,
+        gallery: galleryPath,
+      },
     });
   } catch (error: any) {
     return NextResponse.json(
-      { error: error.message ?? "Server error" },
+      {
+        error: "Folder creation failed",
+        details: error.message ?? "Unknown error",
+      },
       { status: 500 }
     );
   }
