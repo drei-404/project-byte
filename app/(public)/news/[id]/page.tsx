@@ -70,7 +70,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
         {/* Content with paragraphs */}
         {post.content && (
           <div
-            className="prose prose-lg max-w-none mb-8"
+            className="prose prose-lg max-w-none mb-8 mx-12 text-justify space-y-6"
             dangerouslySetInnerHTML={{
               __html: formatContentToHtml(post.content),
             }}
