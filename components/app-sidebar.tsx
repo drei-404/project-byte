@@ -13,6 +13,7 @@ import {
   Newspaper,
   PieChart,
   Settings2,
+  User,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -59,6 +60,11 @@ const data = {
       icon: LayoutDashboard,
       isActive: true,
 
+    },
+    {
+      title: "Users",
+      url: "/users",
+      icon: User,
     },
     {
       title: "News",
