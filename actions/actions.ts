@@ -3,18 +3,16 @@
 import prisma from "@/lib/db";
 import { AdminRole } from "@/lib/generated/prisma/enums";
 import { revalidatePath } from "next/cache";
-import { success } from "zod";
 
 export async function createUsers(formData: FormData){
   const email = formData.get("email") as string
-
 
   const existingUser = await prisma.user.findUnique({
     where: { email },
   })
 
   if (existingUser) {
-    throw new Error("User already exist")
+    throw new Error("User already exists")
   }
 
   await prisma.user.create({
@@ -24,6 +22,24 @@ export async function createUsers(formData: FormData){
       role: formData.get("role") as AdminRole
     }
   })
+
+  revalidatePath("/users");
+}
+
+export async function updateUser(formData: FormData) {
+  const id = formData.get("id") as string;
+  const role = formData.get("role") as AdminRole;
+  const isSuspended = formData.get("isSuspended") === "true";
+
+  await prisma.user.update({
+    where: { id },
+    data: {
+      role,
+      isSuspended,
+    },
+  });
+
+  revalidatePath("/users");
 }
 
 

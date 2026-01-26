@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 import { ModeToggle } from "@/components/mode-toogle";
 import { DotBackground } from "@/components/dot-background";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
+import { ToastProvider } from "@/contexts/toast-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,14 +39,16 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="relative min-h-screen">
-            {/* ================ Background ================ */}
-            <DotBackground />
+          <ToastProvider>
+            <div className="relative min-h-screen">
+              {/* ================ Background ================ */}
+              <DotBackground />
 
-            
 
-            {children}
-          </div>
+
+              {children}
+            </div>
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>

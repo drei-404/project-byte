@@ -8,6 +8,7 @@ type PageProps = {
 };
 
 type UserRow = {
+  id: string
   email: string
   status: boolean
   role: string
@@ -22,6 +23,7 @@ export default async function NewsPost({ params }: PageProps) {
   })
 
   const data: UserRow[] = user.map(user => ({
+    id: user.id,
     email: user.email,
     status: user.isSuspended,
     role: user.role,
