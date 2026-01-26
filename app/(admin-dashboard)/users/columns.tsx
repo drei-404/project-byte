@@ -16,36 +16,35 @@ import { Badge } from "@/components/ui/badge";
 import { IconCircleCheckFilled, IconLoader } from "@tabler/icons-react";
 import Link from "next/link";
 
-export type NewsPost = {
-  id: string;
-  title: string;
+export type User = {
+  email: string;
   status: boolean;
   createdAt: string;
   updatedAt: string;
 };
 
-export const columns: ColumnDef<NewsPost>[] = [
+export const columns: ColumnDef<User>[] = [
   {
-    accessorKey: "title",
-    header: () => <div className="text-left">Title</div>,
-    size: 200,
-    minSize: 200,
-    maxSize: 200,
-    cell: ({ getValue }) => {
-      const title = getValue<string>();
-
-      return (
-        <div title={title} className="truncate">
-          {title}
-        </div>
-      );
-    },
+    accessorKey: "email",
+    header: () => <div className="text-left">Email</div>,
+    cell: ({ getValue }) => (
+      <div className="text-left">{getValue<string>()}</div>
+    ),
   },
+
+  {
+    accessorKey: "role",
+    header: () => <div className="text-center">Role</div>,
+    cell: ({ getValue }) => (
+      <div className="text-center">{getValue<string>()}</div>
+    ),
+  },
+
   {
     accessorKey: "status",
     header: () => <div className="text-center">Status</div>,
     cell: ({ row }) => {
-      const published = row.original.status;
+      const suspended = row.original.status;
 
       return (
         <div className="flex justify-center">
@@ -53,15 +52,16 @@ export const columns: ColumnDef<NewsPost>[] = [
             variant="outline"
             className="flex items-center gap-1.5 text-muted-foreground px-2"
           >
-            {published ? (
-              <>
-                <IconCircleCheckFilled className="h-4 w-4 fill-green-500 dark:fill-green-400" />
-                <span className="font-semibold">PUBLISHED</span>
-              </>
-            ) : (
+            {suspended ? (
               <>
                 <IconLoader className="h-4 w-4 text-yellow-500" />
-                <span>UNPUBLISHED</span>
+                <span>SUSPENDED</span>
+              </>
+
+            ) : (
+              <>
+                <IconCircleCheckFilled className="h-4 w-4 fill-green-500 dark:fill-green-400" />
+                <span className="font-semibold">ACTIVE</span>
               </>
             )}
           </Badge>

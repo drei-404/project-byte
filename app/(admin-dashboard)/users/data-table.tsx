@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import CreateUserForm from "./create-user/page";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -57,26 +58,21 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="mx-10 mt-20">
-      {/* ----------- Filter and Add News ----------- */}
+      {/* ----------- Filter and Add User ----------- */}
       <div className="relevant flex items-center justify-between">
         <div className="flex items-center py-4">
           <Input
-            placeholder="Filter title..."
-            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+            placeholder="Filter email..."
+            value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn("title")?.setFilterValue(event.target.value)
+              table.getColumn("email")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />
         </div>
-        <Link href={"/news-post/create-news"}>
-          <Button variant="outline" size="sm">
-            <Plus />
-            <span className="hidden lg:inline">Add News</span>
-          </Button>
-        </Link>
+        <CreateUserForm />
       </div>
-      {/* ----------- End of Filter and Add News ----------- */}
+      {/* ----------- End of Filter and Add User ----------- */}
 
       <div className="overflow-hidden rounded-md border">
         <Table className="table-fixed w-full">
