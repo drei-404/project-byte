@@ -15,9 +15,6 @@ type NewsPostRow = {
 }
 
 export default async function NewsPost({ params }: PageProps) {
-  const user = await prisma.user.findUnique({
-    where: { id: "1" },
-  });
 
   const news = await prisma.newsPost.findMany({
     orderBy: { createdAt: "desc" },

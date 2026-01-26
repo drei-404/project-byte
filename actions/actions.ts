@@ -1,10 +1,33 @@
 "use server";
 
 import prisma from "@/lib/db";
+import { AdminRole } from "@/lib/generated/prisma/enums";
 import { revalidatePath } from "next/cache";
+import { success } from "zod";
+
+export async function createUsers(formData: FormData){
+  const email = formData.get("email") as string
 
 
-export default async function createNews(formData: FormData, uploadedImageUrl?: string) {
+  const existingUser = await prisma.user.findUnique({
+    where: { email },
+  })
+
+  if (existingUser) {
+    throw new Error("User already exist")
+  }
+
+  await prisma.user.create({
+    data: {
+      email,
+      emailVerified: new Date(),
+      role: formData.get("role") as AdminRole
+    }
+  })
+}
+
+
+export async function createNews(formData: FormData, uploadedImageUrl?: string) {
   await prisma.newsPost.create({
     data: {
       featuredImage: uploadedImageUrl,
@@ -91,3 +114,4 @@ export async function updateNews(
     throw new Error(error instanceof Error ? error.message : "Failed to update news");
   }
 }
+

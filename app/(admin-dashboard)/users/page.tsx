@@ -1,7 +1,10 @@
 import React from 'react'
+import CreateUserForm from './create-user/page'
 
 export default function Users() {
   return (
-    <div>Hello World!</div>
+    <>
+      <CreateUserForm />
+    </>
   )
 }
