@@ -15,8 +15,11 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { IconCircleCheckFilled, IconLoader } from "@tabler/icons-react";
 import Link from "next/link";
+import UpdateUserForm from "./update-user/update-user-form";
+import { DialogTrigger } from "@radix-ui/react-dialog";
 
 export type User = {
+  id: string;
   email: string;
   status: boolean;
   createdAt: string;
@@ -57,7 +60,6 @@ export const columns: ColumnDef<User>[] = [
                 <IconLoader className="h-4 w-4 text-yellow-500" />
                 <span>SUSPENDED</span>
               </>
-
             ) : (
               <>
                 <IconCircleCheckFilled className="h-4 w-4 fill-green-500 dark:fill-green-400" />
@@ -91,24 +93,29 @@ export const columns: ColumnDef<User>[] = [
     id: "actions",
     size: 60,
     cell: ({ row }) => {
-      const newsId = row.original.id;
+      const userId = row.original.id;
 
       return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">Open menu</span>
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <Link href={`/news-post/update-news/${newsId}`} passHref>
-          <DropdownMenuItem asChild><span>Update</span></DropdownMenuItem>
-          </Link>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    )},
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <UpdateUserForm>
+                  <span>Update</span>
+                </UpdateUserForm>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </>
+      );
+    },
   },
 ];

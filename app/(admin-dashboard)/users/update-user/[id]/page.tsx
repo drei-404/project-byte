@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import prisma from "@/lib/db";
 import UpdateNewsFormClient from "./update-news-form-client";
+import UpdateUserForm from "../update-user-form";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -25,5 +26,5 @@ export default async function UpdateNewsPage({ params }: PageProps) {
     notFound();
   }
 
-  return <UpdateNewsFormClient initialData={news} />;
+  return <UpdateUserForm />;
 }
