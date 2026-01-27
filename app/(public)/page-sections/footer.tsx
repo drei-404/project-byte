@@ -1,7 +1,7 @@
 "use client";
 
 import { footer } from "motion/react-client";
-import { AnimatedTooltip } from "../../ui/animated-tooltip";
+import { AnimatedTooltip } from "../../../components/ui/animated-tooltip";
 import { Facebook, Mail, Smartphone } from "lucide-react";
 
 const partners = [

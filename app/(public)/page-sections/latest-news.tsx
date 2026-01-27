@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import { HoverEffect } from "../../ui/card-hover-effect";
+import { HoverEffect } from "../../../components/ui/card-hover-effect";
 
 const news = [
   {
