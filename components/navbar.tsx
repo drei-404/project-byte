@@ -24,6 +24,10 @@ const navMenu = [
     title: "Courses",
     link: "/courses"
   },
+  {
+    title: "Contact Us",
+    link: "/#footer"
+  },
 ]
 
 

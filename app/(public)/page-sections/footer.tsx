@@ -21,7 +21,7 @@ const partners = [
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t bg-background">
+    <footer id="footer" className="relative overflow-hidden border-t bg-background">
       <div className="absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-size-[24px_24px]"></div>
       <div className="container mx-auto px-6 pb-8 pt-12 md:pb-2 ">
         <div className="grid gap-8 pb-4 md:grid-cols-2 lg:grid-cols-3">
