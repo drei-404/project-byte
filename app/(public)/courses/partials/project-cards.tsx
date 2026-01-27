@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import {
   Card,
   CardAction,
+  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -20,14 +21,14 @@ export function ProjectCards() {
         alt="Event cover"
         className="relative z-20 aspect-video w-full object-cover"
       />
-      <CardHeader>
+      <CardContent className="">
         <CardAction>
         </CardAction>
-        <CardTitle>Design systems meetup</CardTitle>
-      </CardHeader>
-      <CardFooter className="justify-end">
-        <Badge variant="outline">Linux</Badge>
-      </CardFooter>
+        <h3 className="text-foreground">WordPress Website Design</h3>
+        <div className="flex justify-end mt-4">
+          <Badge variant="outline"><span className="font-normal">Linux</span></Badge>
+        </div>
+      </CardContent>
     </Card>
   )
 }
