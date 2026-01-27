@@ -11,45 +11,42 @@ import {
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils";
 
+const navMenu = [
+  {
+    title: "Home",
+    link: "/"
+  },
+  {
+    title: "News",
+    link: "/news"
+  },
+  {
+    title: "Courses",
+    link: "/courses"
+  },
+]
+
 
 export function Navbar() {
 
   return (
     <NavigationMenu>
       <NavigationMenuList className="flex-wrap">
-        <NavigationMenuItem className="transparent">
+       {navMenu.map((item, index) => {
+
+        return (
+        <NavigationMenuItem key={index} className="transparent">
           <NavigationMenuLink asChild className={cn(
             navigationMenuTriggerStyle(),
             "bg-transparent"
           )}>
-            <Link href="/">Home</Link>
+            <Link href={item.link}>{item.title}</Link>
           </NavigationMenuLink>
 
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={cn(
-            navigationMenuTriggerStyle(),
-            "bg-transparent"
-          )}>
-            <Link href="/news">News</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={cn(
-            navigationMenuTriggerStyle(),
-            "bg-transparent"
-          )}>
-            <Link href="/about">Our Partners</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={cn(
-            navigationMenuTriggerStyle(),
-            "bg-transparent"
-          )}>
-            <Link href="/about">Contact Us</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
+        );
+        })}
+
       </NavigationMenuList>
     </NavigationMenu>
   )
