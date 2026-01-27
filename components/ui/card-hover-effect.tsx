@@ -50,7 +50,9 @@ export const HoverEffect = ({
             )}
           </AnimatePresence>
           <Card>
-            <img src={item.image} className="w-full h-auto" alt="img" />
+            <div className="relative h-48 w-full overflow-hidden">
+            <img src={item.image} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" alt="img" />
+            </div>
             <CardTitle>{item.title}</CardTitle>
             <CardDescription className="line-clamp-3">{item.description}</CardDescription>
           </Card>
