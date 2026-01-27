@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import createNews from "@/actions/actions";
+import { createNews } from "@/actions/actions";
 
 export default function CreateNewsForm() {
   const [title, setTitle] = React.useState("");

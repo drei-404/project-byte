@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import createNews from "@/actions/actions";
+import { createNews } from "@/actions/actions";
 import { useState } from "react";
 
 type PageProps = {
