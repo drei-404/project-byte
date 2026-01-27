@@ -17,12 +17,6 @@ const partners = [
     designation: "Community partner; supports outreach and participation.",
     image: "images/partners-logo/process-bohol-logo.jpg",
   },
-  {
-    id: 3,
-    name: "CVISNET",
-    designation: "Tech provider; builds solutions and trains users.",
-    image: "images/partners-logo/cvisnet-logo.webp",
-  },
 ];
 
 export default function Footer() {
