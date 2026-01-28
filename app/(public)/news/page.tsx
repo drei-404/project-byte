@@ -99,7 +99,10 @@ function Pagination({ currentPage, totalPages }: PaginationProps) {
   };
 
   return (
-    <nav className="flex items-center justify-center gap-2 mt-8" aria-label="Pagination">
+    <nav
+      className="flex items-center justify-center gap-2 mt-8"
+      aria-label="Pagination"
+    >
       {/* Previous button */}
       {currentPage > 1 ? (
         <Link
@@ -133,7 +136,7 @@ function Pagination({ currentPage, totalPages }: PaginationProps) {
             >
               {page}
             </Link>
-          )
+          ),
         )}
       </div>
 
@@ -182,8 +185,15 @@ export default async function NewsPage({ searchParams }: PageProps) {
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">News</h1>
+    <div className="relative mx-auto my-10 flex max-w-300 flex-col items-start justify-center gap-10 pb-12">
+      <div className="flex flex-col text-center gap-4 mb-8">
+        <h1 className="text-3xl font-bold">News</h1>
+        <p className="px-30">
+          Stay updated with the latest news, announcements, and updates from our
+          community. Explore articles, insights, and important events to keep
+          yourself informed.
+        </p>
+      </div>
 
       {news.length === 0 ? (
         <p className="text-muted-foreground text-center py-12">
