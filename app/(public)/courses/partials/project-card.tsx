@@ -38,7 +38,7 @@ export function ProjectCard() {
             <CardContent className="">
               <CardAction></CardAction>
               <h3 className="text-foreground">{item.title}</h3>
-              <div className="flex justify-end mt-4">
+              <div className="flex justify-end mt-4 gap-1">
                 {item.tags.map((tag, tagIndex) => {
                   return (
                     <Badge key={tagIndex} variant="outline">
