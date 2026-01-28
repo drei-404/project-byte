@@ -49,7 +49,7 @@ export async function POST(req: Request) {
     const password = process.env.NEXTCLOUD_APP_PASSWORD!;
 
     // Construct nested path matching create pattern
-    const folderPath = `byte-images/${sanitizedSlug}/${folder}`;
+    const folderPath = `byte-images/news/${sanitizedSlug}/${folder}`;
     const nextcloudUrl = `${baseUrl}/${username}/${folderPath}/${filename}`;
 
     const auth = Buffer.from(`${email}:${password}`).toString("base64");
@@ -69,7 +69,7 @@ export async function POST(req: Request) {
       // If 404, folder might not exist - try to create it
       if (ncRes.status === 404) {
         // Auto-create folder structure
-        const basePath = `${baseUrl}/${username}/byte-images/${sanitizedSlug}`;
+        const basePath = `${baseUrl}/${username}/byte-images/news/${sanitizedSlug}`;
         const targetFolderPath = `${basePath}/${folder}`;
 
         // Create base folder

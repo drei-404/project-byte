@@ -40,7 +40,7 @@ export async function POST(req: Request) {
 
     const folderName = slugify(title);
 
-    const baseFolderPath = `byte-images/${folderName}`;
+    const baseFolderPath = `byte-images/news/${folderName}`;
     const featuredPath = `${baseFolderPath}/featured`;
     const galleryPath = `${baseFolderPath}/gallery`;
 

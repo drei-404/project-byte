@@ -11,10 +11,10 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "URL is required" }, { status: 400 });
     }
 
-    // Security: Validate URL contains byte-images/
-    if (!url.includes("byte-images/")) {
+    // Security: Validate URL contains byte-images/news
+    if (!url.includes("byte-images/news/")) {
       return NextResponse.json(
-        { error: "Invalid URL: must be a byte-images path" },
+        { error: "Invalid URL: must be a news path" },
         { status: 400 }
       );
     }
