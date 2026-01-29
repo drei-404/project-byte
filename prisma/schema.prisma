@@ -82,3 +82,27 @@ model NewsPost {
 
   @@index([status, createdAt(sort: Desc)])
 }
+
+// Affiliated Organizations
+model Organization {
+  id           String  @id @default(cuid())
+  profilePhoto String? @map("profile_photo")
+  name         String
+  location     String
+
+  trainingStartedAt DateTime @map("training_started_at")
+}
+
+model Trainee {
+  id           String   @id @default(cuid())
+  profilePhoto String?  @map("profile_photo")
+  fullName     String   @map("full_name")
+  email        String   @unique
+  phoneNumber  String   @unique @map("phone_number")
+  birthDate    DateTime @map("birth_date")
+  address      String
+  skills       String[]
+
+  rating Float?
+  passed Boolean @default(false)
+}
