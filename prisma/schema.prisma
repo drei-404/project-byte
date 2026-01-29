@@ -90,6 +90,8 @@ model Organization {
   name         String
   location     String
 
+  trainees Trainee[]
+
   trainingStartedAt DateTime @map("training_started_at")
 }
 
@@ -105,4 +107,9 @@ model Trainee {
 
   rating Float?
   passed Boolean @default(false)
+
+  organizationId String @map("organization_id")
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
 }
