@@ -59,7 +59,7 @@ export default function CreateNewsForm() {
   };
 
   return (
-    <div className="flex justify-center mt-20">
+    <div className="flex justify-center my-20">
       <div className="w-full max-w-md">
         <form ref={formRef} onSubmit={handleSubmit}>
           <FieldGroup>

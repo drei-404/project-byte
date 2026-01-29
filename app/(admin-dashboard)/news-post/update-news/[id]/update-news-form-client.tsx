@@ -161,7 +161,7 @@ export default function UpdateNewsFormClient({ initialData }: Props) {
   };
 
   return (
-    <div className="flex justify-center mt-20">
+    <div className="flex justify-center my-20">
       <div className="w-full max-w-md">
         <form onSubmit={handleSubmit}>
           <FieldGroup>
