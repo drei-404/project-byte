@@ -5,9 +5,11 @@ import {
   AudioWaveform,
   BookOpen,
   Bot,
+  Building,
   Command,
   Frame,
   GalleryVerticalEnd,
+  IdCardLanyard,
   LayoutDashboard,
   Map,
   Newspaper,
@@ -70,6 +72,16 @@ const data = {
       title: "News",
       url: "/news-post",
       icon: Newspaper,
+    },
+    {
+      title: "Organizations",
+      url: "/organizations",
+      icon: Building,
+    },
+    {
+      title: "Trainees",
+      url: "/trainees",
+      icon: IdCardLanyard,
     },
   ],
 };
