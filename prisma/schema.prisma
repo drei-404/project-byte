@@ -92,7 +92,7 @@ model Organization {
 
   trainees Trainee[]
 
-  trainingStartedAt DateTime @map("training_started_at")
+  trainingStartedAt DateTime @db.Date @map("training_started_at")
 }
 
 model Trainee {

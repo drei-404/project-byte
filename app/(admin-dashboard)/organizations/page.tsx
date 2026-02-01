@@ -23,7 +23,7 @@ export default async function Organizations({ params }: PageProps) {
     id: org.id,
     name: org.name,
     location: org.location,
-    trainingStartedAt: org.trainingStartedAt.toISOString(),
+    trainingStartedAt: org.trainingStartedAt.toLocaleDateString(),
   }))
 
 
