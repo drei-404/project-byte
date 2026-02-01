@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import CreateOrgForm from "./create-organization/create-org-form";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -57,7 +58,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="mx-10 mt-20">
-      {/* ----------- Filter and Add News ----------- */}
+      {/* ----------- Filter and Add Organization ----------- */}
       <div className="relevant flex items-center justify-between">
         <div className="flex items-center py-4">
           <Input
@@ -69,14 +70,9 @@ export function DataTable<TData, TValue>({
             className="max-w-sm"
           />
         </div>
-        <Link href={"/news-post/create-organization"}>
-          <Button variant="outline" size="sm">
-            <Plus />
-            <span className="hidden lg:inline">Add Organization</span>
-          </Button>
-        </Link>
+        <CreateOrgForm />
       </div>
-      {/* ----------- End of Filter and Add News ----------- */}
+      {/* ----------- End of Filter and Add Organization ----------- */}
 
       <div className="overflow-hidden rounded-md border">
         <Table className="table-fixed w-full">

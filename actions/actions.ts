@@ -131,3 +131,13 @@ export async function updateNews(
   }
 }
 
+export async function createOrganization(formData: FormData, uploadedImageUrl?: string) {
+  await prisma.organization.create({
+    data: {
+      name: formData.get("name") as string,
+      location: formData.get("location") as string,
+      trainingStartedAt: formData.get("joined") as string,
+    },
+  });
+  revalidatePath("/organizations");
+}
