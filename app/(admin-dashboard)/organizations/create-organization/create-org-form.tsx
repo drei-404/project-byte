@@ -33,18 +33,6 @@ export default function CreateOrgForm() {
   const [openCalendar, setOpenCalendar] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
 
-  async function handleSubmitcopy(formData: FormData) {
-    try {
-      await createOrganization(formData);
-      toast.success("User created successfully");
-      setOpen(false);
-    } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Failed to create user",
-      );
-    }
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formRef.current) return;
