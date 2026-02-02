@@ -9,7 +9,7 @@ type PageProps = {
 
 type OrganizationsRow = {
   name: string
-  location: boolean
+  location: string
   trainingStartedAt: string
 }
 

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import prisma from "@/lib/db";
-import UpdateNewsFormClient from "./update-news-form-client";
+import UpdateNewsFormClient from "./update-org-form";
 
 type PageProps = {
   params: Promise<{ id: string }>;

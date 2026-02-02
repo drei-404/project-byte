@@ -141,3 +141,19 @@ export async function createOrganization(formData: FormData, uploadedImageUrl?: 
   });
   revalidatePath("/organizations");
 }
+
+export async function updateOrganization(formData: FormData) {
+  const id = formData.get("id") as string;
+  const name = formData.get("name") as string;
+  const location = formData.get("location") as string;
+
+  await prisma.organization.update({
+    where: { id },
+    data: {
+      name,
+      location,
+    },
+  });
+
+  revalidatePath("/users");
+}
