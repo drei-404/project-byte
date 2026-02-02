@@ -8,9 +8,9 @@ type PageProps = {
 };
 
 type OrganizationsRow = {
-  name: string
-  location: string
-  trainingStartedAt: string
+  name: string;
+  location: string;
+  trainingStartedAt: string;
 }
 
 export default async function Organizations({ params }: PageProps) {

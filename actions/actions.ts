@@ -4,24 +4,24 @@ import prisma from "@/lib/db";
 import { AdminRole } from "@/lib/generated/prisma/enums";
 import { revalidatePath } from "next/cache";
 
-export async function createUsers(formData: FormData){
-  const email = formData.get("email") as string
+export async function createUsers(formData: FormData) {
+  const email = formData.get("email") as string;
 
   const existingUser = await prisma.user.findUnique({
     where: { email },
-  })
+  });
 
   if (existingUser) {
-    throw new Error("User already exists")
+    throw new Error("User already exists");
   }
 
   await prisma.user.create({
     data: {
       email,
       emailVerified: new Date(),
-      role: formData.get("role") as AdminRole
-    }
-  })
+      role: formData.get("role") as AdminRole,
+    },
+  });
 
   revalidatePath("/users");
 }
@@ -42,8 +42,10 @@ export async function updateUser(formData: FormData) {
   revalidatePath("/users");
 }
 
-
-export async function createNews(formData: FormData, uploadedImageUrl?: string) {
+export async function createNews(
+  formData: FormData,
+  uploadedImageUrl?: string,
+) {
   await prisma.newsPost.create({
     data: {
       featuredImage: uploadedImageUrl,
@@ -60,7 +62,7 @@ export async function updateNews(
   id: string,
   uploadedImageUrl?: string,
   galleryUrls?: string[],
-  imagesToDelete?: string[]
+  imagesToDelete?: string[],
 ) {
   try {
     // Validation
@@ -103,7 +105,7 @@ export async function updateNews(
       // Remove deleted images
       if (imagesToDelete && imagesToDelete.length > 0) {
         currentGallery = currentGallery.filter(
-          (url) => !imagesToDelete.includes(url)
+          (url) => !imagesToDelete.includes(url),
         );
       }
 
@@ -127,13 +129,19 @@ export async function updateNews(
     revalidatePath("/news");
   } catch (error) {
     console.error("Update news error:", error);
-    throw new Error(error instanceof Error ? error.message : "Failed to update news");
+    throw new Error(
+      error instanceof Error ? error.message : "Failed to update news",
+    );
   }
 }
 
-export async function createOrganization(formData: FormData, uploadedImageUrl?: string) {
+export async function createOrganization(
+  formData: FormData,
+  uploadedImageUrl?: string,
+) {
   await prisma.organization.create({
     data: {
+      profilePhoto: formData.get("profilePhoto") as string,
       name: formData.get("name") as string,
       location: formData.get("location") as string,
       trainingStartedAt: formData.get("joined") as string,
@@ -144,12 +152,14 @@ export async function createOrganization(formData: FormData, uploadedImageUrl?: 
 
 export async function updateOrganization(formData: FormData) {
   const id = formData.get("id") as string;
+  const profilePhoto = formData.get("profilePhoto") as string;
   const name = formData.get("name") as string;
   const location = formData.get("location") as string;
 
   await prisma.organization.update({
     where: { id },
     data: {
+      profilePhoto,
       name,
       location,
     },

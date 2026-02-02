@@ -25,12 +25,15 @@ import { PlusIcon } from "lucide-react";
 import { useToast } from "@/contexts/toast-context";
 
 export default function CreateOrgForm() {
+  const [name, setName] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const { toast } = useToast();
+  const [loading, setLoading] = React.useState(false);
+  const formRef = React.useRef<HTMLFormElement | null>(null);
   const [openCalendar, setOpenCalendar] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
 
-  async function handleSubmit(formData: FormData) {
+  async function handleSubmitcopy(formData: FormData) {
     try {
       await createOrganization(formData);
       toast.success("User created successfully");
@@ -42,6 +45,48 @@ export default function CreateOrgForm() {
     }
   }
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formRef.current) return;
+
+    setLoading(true);
+
+    try {
+      /* Create Nextcloud folder */
+      const folderForm = new FormData();
+      folderForm.append("name", name);
+
+      const folderRes = await fetch("/api/nextcloud/organizations/create-folder", {
+        method: "POST",
+        body: folderForm,
+      });
+
+      if(!folderRes.ok) {
+        const err = await folderRes.json();
+        throw new Error(err.error || "Failed to create folder");
+      }
+
+      const { folder } = await folderRes.json()
+
+      /* Create Organization */
+      const orgForm = new FormData(formRef.current);
+      orgForm.append("folder", folder);
+
+      await createOrganization(orgForm);
+
+      toast.success("Organization created successfully!");
+      formRef.current.reset();
+      setName("");
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong",
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -52,14 +97,15 @@ export default function CreateOrgForm() {
       </DialogTrigger>
 
       <DialogContent>
-        <form action={handleSubmit}>
+        <form ref={formRef} onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>Add Organization</DialogTitle>
             <Separator />
+
             <DialogDescription className="font-medium text-foreground">
               Organization Name
             </DialogDescription>
-            <Input id="name" name="name" placeholder="Organization Name" />
+            <Input id="name" name="name" placeholder="Organization Name" value={name} onChange={(e) => setName(e.target.value)} />
 
             <DialogDescription className="font-medium text-foreground">
               Location
@@ -106,8 +152,8 @@ export default function CreateOrgForm() {
             </Field>
 
             <div className="relative flex justify-end gap-4">
-              <Button type="submit">
-                <span>Add Organization</span>
+              <Button type="submit" disabled={loading}>
+                {loading ? "Adding..." : "Add Organization"}
               </Button>
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
