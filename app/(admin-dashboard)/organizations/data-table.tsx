@@ -21,8 +21,6 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus } from "lucide-react";
-import Link from "next/link";
 import CreateOrgForm from "./create-organization/create-org-form";
 
 interface DataTableProps<TData, TValue> {

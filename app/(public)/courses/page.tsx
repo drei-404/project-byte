@@ -1,7 +1,6 @@
 import Link from "next/link";
 import CourseCard from "./partials/course-card";
 import { ProjectCard } from "./partials/project-card";
-import { Badge } from "@/components/ui/badge";
 
 export default function page() {
   return (

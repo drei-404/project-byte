@@ -1,4 +1,3 @@
-import AdminSidebar from "@/components/admin-sidebar";
 import Provider from "@/components/provider";
 import React from "react";
 

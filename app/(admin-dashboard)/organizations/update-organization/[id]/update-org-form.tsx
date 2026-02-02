@@ -1,6 +1,5 @@
 import { updateOrganization } from "@/actions/actions";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
   DialogClose,
@@ -13,10 +12,8 @@ import {
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/contexts/toast-context";
 import React from "react";
 

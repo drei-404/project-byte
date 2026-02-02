@@ -1,8 +1,6 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { Tag } from "lucide-react";
-import React from "react";
 
 const courseItem = [
   {
