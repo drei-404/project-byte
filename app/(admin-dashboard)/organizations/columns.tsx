@@ -7,11 +7,13 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import UpdateOrgForm from "./update-organization/[id]/update-org-form";
+
+import Link from "next/link";
 
 export type OrganizationsRow = {
   id: string;
@@ -49,7 +51,7 @@ export const columns: ColumnDef<OrganizationsRow>[] = [
     id: "actions",
     size: 60,
     cell: ({ row }) => {
-      const orgOriginal = row.original;
+      const orgId = row.original.id;
 
       return (
       <DropdownMenu>
@@ -62,7 +64,9 @@ export const columns: ColumnDef<OrganizationsRow>[] = [
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <UpdateOrgForm org ={orgOriginal} />
+          <Link href={`/organizations/update-organization/${orgId}`} passHref>
+          <DropdownMenuItem asChild><span>Update</span></DropdownMenuItem>
+          </Link>
         </DropdownMenuContent>
       </DropdownMenu>
     )},

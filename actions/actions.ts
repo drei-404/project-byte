@@ -150,20 +150,51 @@ export async function createOrganization(
   revalidatePath("/organizations");
 }
 
-export async function updateOrganization(formData: FormData) {
-  const id = formData.get("id") as string;
-  const profilePhoto = formData.get("profilePhoto") as string;
-  const name = formData.get("name") as string;
-  const location = formData.get("location") as string;
+export async function updateOrganization(
+  formData: FormData,
+  id: string,
+  uploadedImageUrl?: string,
+) {
 
-  await prisma.organization.update({
-    where: { id },
-    data: {
-      profilePhoto,
-      name,
-      location,
-    },
-  });
 
-  revalidatePath("/users");
+
+  try {
+    // Validation
+    const name = formData.get("name") as string;
+    const location = formData.get("location") as string;
+
+    if (!name?.trim()) {
+      throw new Error("Organization name is required");
+    }
+
+    if (name.length > 200) {
+      throw new Error("Organization name too long (max 200 characters)");
+    }
+
+    // Build update data
+    const updateData: any = {
+      name: name.trim(),
+      location: location?.trim() || null,
+    };
+
+    // Only update image if provided
+    if (uploadedImageUrl !== undefined) {
+      updateData.profilePhoto = uploadedImageUrl;
+    }
+
+    // Update in database
+    await prisma.organization.update({
+      where: { id },
+      data: updateData,
+    });
+
+    // Revalidate cache
+    revalidatePath("/organizations");
+    revalidatePath(`/organizations/update-organization/${id}`);
+  } catch (error) {
+    console.error("Update organization error:", error);
+    throw new Error(
+      error instanceof Error ? error.message : "Failed to update organization",
+    );
+  }
 }

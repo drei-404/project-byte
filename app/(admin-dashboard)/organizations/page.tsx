@@ -3,17 +3,13 @@ import prisma from "@/lib/db";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 
-type PageProps = {
-  params: Promise<{ id: string }>;
-};
-
 type OrganizationsRow = {
   name: string;
   location: string;
   trainingStartedAt: string;
 }
 
-export default async function Organizations({ params }: PageProps) {
+export default async function Organizations() {
 
   const org = await prisma.organization.findMany({
     orderBy: { trainingStartedAt: "desc" },
@@ -30,7 +26,6 @@ export default async function Organizations({ params }: PageProps) {
 
   return (
     <>
-
       <DataTable columns={columns} data={data} />
     </>
   );

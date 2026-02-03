@@ -7,7 +7,7 @@ export async function POST(req: Request) {
     const formData = await req.formData();
     const file = formData.get("file") as File;
     const slug = formData.get("slug") as string;
-    const folder = (formData.get("folder") as string) || "featured";
+    const folder = (formData.get("folder") as string) || "profile";
 
     // Validation
     if (!file) {
@@ -18,9 +18,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Slug is required" }, { status: 400 });
     }
 
-    // Validate folder is either featured or gallery
-    if (folder !== "featured" && folder !== "gallery") {
-      return NextResponse.json({ error: "Invalid folder (must be 'featured' or 'gallery')" }, { status: 400 });
+    // Validate folder is either profile or gallery
+    if (folder !== "profile") {
+      return NextResponse.json({ error: "Invalid folder (must be 'profile')" }, { status: 400 });
     }
 
     // Sanitize slug (prevent path traversal)
@@ -78,7 +78,7 @@ export async function POST(req: Request) {
           headers: { Authorization: `Basic ${auth}` },
         });
 
-        // Create target folder (featured or gallery)
+        // Create target folder (profile)
         await fetch(targetFolderPath, {
           method: "MKCOL",
           headers: { Authorization: `Basic ${auth}` },
