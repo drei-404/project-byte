@@ -155,9 +155,6 @@ export async function updateOrganization(
   id: string,
   uploadedImageUrl?: string,
 ) {
-
-
-
   try {
     // Validation
     const name = formData.get("name") as string;
