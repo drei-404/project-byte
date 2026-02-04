@@ -78,11 +78,6 @@ const data = {
       url: "/organization-management",
       icon: Building,
     },
-    {
-      title: "Trainees",
-      url: "/trainees",
-      icon: IdCardLanyard,
-    },
   ],
 };
 
