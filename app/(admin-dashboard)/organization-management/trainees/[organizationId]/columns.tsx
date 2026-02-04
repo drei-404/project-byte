@@ -20,6 +20,8 @@ export type TraineesRow = {
   fullName: string;
   email: string;
   phoneNumber: string;
+  rating: number;
+  passed: boolean;
 };
 
 export const columns: ColumnDef<TraineesRow>[] = [
@@ -51,7 +53,7 @@ export const columns: ColumnDef<TraineesRow>[] = [
     id: "actions",
     size: 60,
     cell: ({ row }) => {
-      const orgId = row.original.id;
+      const traineeId = row.original.id;
 
       return (
         <DropdownMenu>
@@ -64,22 +66,11 @@ export const columns: ColumnDef<TraineesRow>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <Link
-              href={`/organization-management/update-organization/${orgId}`}
-              passHref
-            >
+{/* Link here */}
               <DropdownMenuItem asChild>
                 <span>Update</span>
               </DropdownMenuItem>
-            </Link>
-            <Link
-              href={`/organization-management/trainees/${orgId}`}
-              passHref
-            >
-              <DropdownMenuItem asChild>
-                <span>Trainees</span>
-              </DropdownMenuItem>
-            </Link>
+
           </DropdownMenuContent>
         </DropdownMenu>
       );

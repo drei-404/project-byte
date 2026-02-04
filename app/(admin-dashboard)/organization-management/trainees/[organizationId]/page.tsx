@@ -7,16 +7,18 @@ interface PageProps {
 }
 
 export default async function Trainees({ params }: PageProps) {
+  const { organizationId } = await params;
+
   const trainees = await prisma.trainee.findMany({
     where: {
-      organizationId: params.organizationId,
+      organizationId
     },
     orderBy: {
       fullName: "asc",
     },
   });
 
-  const data: TraineesRow = trainees.map((trainee) => ({
+  const data: TraineesRow[] = trainees.map((trainee) => ({
     id: trainee.id,
     fullName: trainee.fullName,
     email: trainee.email,
