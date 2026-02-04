@@ -1,12 +1,13 @@
 import prisma from "@/lib/db";
 import { DataTable } from "./data-table";
-import { columns } from "./columns";
+import { columns, TraineesRow } from "./columns";
 
 interface PageProps {
   params: { organizationId: string };
 }
 
 export default async function Trainees({ params }: PageProps) {
+  // Scope trainees to organization
   const { organizationId } = await params;
 
   const trainees = await prisma.trainee.findMany({

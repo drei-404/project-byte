@@ -20,7 +20,7 @@ export type TraineesRow = {
   fullName: string;
   email: string;
   phoneNumber: string;
-  rating: number;
+  rating: number | null;
   passed: boolean;
 };
 
