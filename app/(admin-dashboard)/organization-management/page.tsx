@@ -13,6 +13,7 @@ export default async function Organizations() {
 
   const org = await prisma.organization.findMany({
     orderBy: { trainingStartedAt: "desc" },
+    include: { trainees: true },
   })
 
   const data: OrganizationsRow[] = org.map(org => ({
@@ -21,8 +22,6 @@ export default async function Organizations() {
     location: org.location,
     trainingStartedAt: org.trainingStartedAt.toLocaleDateString(),
   }))
-
-
 
   return (
     <>

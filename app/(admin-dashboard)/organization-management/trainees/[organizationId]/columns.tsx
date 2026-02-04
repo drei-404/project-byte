@@ -15,16 +15,16 @@ import {
 
 import Link from "next/link";
 
-export type OrganizationsRow = {
+export type TraineesRow = {
   id: string;
-  name: string;
-  location: string;
-  trainingStartedAt: string;
+  fullName: string;
+  email: string;
+  phoneNumber: string;
 };
 
-export const columns: ColumnDef<OrganizationsRow>[] = [
+export const columns: ColumnDef<TraineesRow>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "fullName",
     header: () => <div className="text-center">Organization Name</div>,
     cell: ({ getValue }) => (
       <div className="text-center">{getValue<string>()}</div>
@@ -32,7 +32,7 @@ export const columns: ColumnDef<OrganizationsRow>[] = [
   },
 
   {
-    accessorKey: "location",
+    accessorKey: "email",
     header: () => <div className="text-center">Location</div>,
     cell: ({ getValue }) => (
       <div className="text-center">{getValue<string>()}</div>
@@ -40,7 +40,7 @@ export const columns: ColumnDef<OrganizationsRow>[] = [
   },
 
   {
-    accessorKey: "trainingStartedAt",
+    accessorKey: "phoneNumber",
     header: () => <div className="text-center">Joined</div>,
     cell: ({ getValue }) => (
       <div className="text-center">{getValue<string>()}</div>
