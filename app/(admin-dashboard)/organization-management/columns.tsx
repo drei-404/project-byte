@@ -64,7 +64,7 @@ export const columns: ColumnDef<OrganizationsRow>[] = [
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <Link href={`/organizations/update-organization/${orgId}`} passHref>
+          <Link href={`/organization-management/update-organization/${orgId}`} passHref>
           <DropdownMenuItem asChild><span>Update</span></DropdownMenuItem>
           </Link>
         </DropdownMenuContent>

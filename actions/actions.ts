@@ -147,7 +147,7 @@ export async function createOrganization(
       trainingStartedAt: formData.get("joined") as string,
     },
   });
-  revalidatePath("/organizations");
+  revalidatePath("/organization-management");
 }
 
 export async function updateOrganization(
@@ -186,8 +186,8 @@ export async function updateOrganization(
     });
 
     // Revalidate cache
-    revalidatePath("/organizations");
-    revalidatePath(`/organizations/update-organization/${id}`);
+    revalidatePath("/organization-management");
+    revalidatePath(`/organization-management/update-organization/${id}`);
   } catch (error) {
     console.error("Update organization error:", error);
     throw new Error(

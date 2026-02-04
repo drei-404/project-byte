@@ -201,7 +201,7 @@ export default function UpdateOrgForm({ initialData }: Props) {
                   variant="outline"
                   type="button"
                   disabled={isUpdating}
-                  onClick={() => router.push("/organizations")}
+                  onClick={() => router.push("/organization-management")}
                 >
                   Cancel
                 </Button>

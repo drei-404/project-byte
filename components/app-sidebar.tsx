@@ -75,7 +75,7 @@ const data = {
     },
     {
       title: "Organizations",
-      url: "/organizations",
+      url: "/organization-management",
       icon: Building,
     },
     {
