@@ -54,7 +54,7 @@ export async function createNews(
       content: formData.get("content") as string,
     },
   });
-  revalidatePath("/news-post");
+  revalidatePath("/news-management");
 }
 
 export async function updateNews(
@@ -124,8 +124,8 @@ export async function updateNews(
     });
 
     // Revalidate cache
-    revalidatePath("/news-post");
-    revalidatePath(`/news-post/update-news/${id}`);
+    revalidatePath("/news-management");
+    revalidatePath(`/news-management/update-news/${id}`);
     revalidatePath("/news");
   } catch (error) {
     console.error("Update news error:", error);

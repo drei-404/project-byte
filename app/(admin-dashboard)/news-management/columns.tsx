@@ -104,7 +104,7 @@ export const columns: ColumnDef<NewsPost>[] = [
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <Link href={`/news-post/update-news/${newsId}`} passHref>
+          <Link href={`/news-management/update-news/${newsId}`} passHref>
           <DropdownMenuItem asChild><span>Update</span></DropdownMenuItem>
           </Link>
         </DropdownMenuContent>

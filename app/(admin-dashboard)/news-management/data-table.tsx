@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
             className="max-w-sm"
           />
         </div>
-        <Link href={"/news-post/create-news"}>
+        <Link href={"/news-management/create-news"}>
           <Button variant="outline" size="sm">
             <Plus />
             <span className="hidden lg:inline">Add News</span>

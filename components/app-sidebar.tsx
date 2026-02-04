@@ -70,7 +70,7 @@ const data = {
     },
     {
       title: "News",
-      url: "/news-post",
+      url: "/news-management",
       icon: Newspaper,
     },
     {
