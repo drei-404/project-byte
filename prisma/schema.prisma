@@ -92,24 +92,20 @@ model Organization {
 
   trainees Trainee[]
 
-  trainingStartedAt DateTime @db.Date @map("training_started_at")
+  trainingStartedAt DateTime @map("training_started_at") @db.Date
 }
 
 model Trainee {
   id           String   @id @default(cuid())
   profilePhoto String?  @map("profile_photo")
   fullName     String   @map("full_name")
-  email        String   @unique
-  phoneNumber  String   @unique @map("phone_number")
-  birthDate    DateTime @map("birth_date")
-  address      String
+  email        String?  @unique
+  phoneNumber  String?  @unique @map("phone_number")
+  address      String?
   skills       String[]
 
-  rating Float?
-  passed Boolean @default(false)
-
-  organizationId String @map("organization_id")
-  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String       @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
   @@index([organizationId])
 }

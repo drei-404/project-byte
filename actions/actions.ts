@@ -195,3 +195,29 @@ export async function updateOrganization(
     );
   }
 }
+
+export async function createTrainee(formData: FormData) {
+  const fullName = formData.get("fullName") as string;
+  const email = formData.get("email") as string;
+  const phoneNumber = formData.get("phoneNumber") as string;
+  const address = formData.get("address") as string;
+  const organizationId = formData.get("organizationId") as string;
+
+  if (!organizationId) {
+    throw new Error("Organization ID is required");
+  }
+
+  await prisma.trainee.create({
+    data: {
+      fullName,
+      email,
+      phoneNumber,
+      address,
+      organization: {
+        connect: { id: organizationId },
+      },
+    },
+  });
+
+  revalidatePath(`/organization-management/trainees/${organizationId}`);
+}

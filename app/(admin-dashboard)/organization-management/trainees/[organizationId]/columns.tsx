@@ -13,15 +13,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import Link from "next/link";
-
 export type TraineesRow = {
   id: string;
   fullName: string;
-  email: string;
-  phoneNumber: string;
-  rating: number | null;
-  passed: boolean;
+  email: string | null;
+  phoneNumber: string | null;
+  address: string | null;
 };
 
 export const columns: ColumnDef<TraineesRow>[] = [
@@ -66,9 +63,9 @@ export const columns: ColumnDef<TraineesRow>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-{/* Link here */}
-              <DropdownMenuItem asChild>
-                <span>Update</span>
+
+              <DropdownMenuItem>
+                Update
               </DropdownMenuItem>
 
           </DropdownMenuContent>

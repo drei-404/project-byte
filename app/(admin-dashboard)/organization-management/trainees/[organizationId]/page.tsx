@@ -24,13 +24,12 @@ export default async function Trainees({ params }: PageProps) {
     fullName: trainee.fullName,
     email: trainee.email,
     phoneNumber: trainee.phoneNumber,
-    rating: trainee.rating,
-    passed: trainee.passed,
+    address: trainee.address
   }));
 
   return (
     <>
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={data} organizationId={organizationId} />
     </>
   );
 }

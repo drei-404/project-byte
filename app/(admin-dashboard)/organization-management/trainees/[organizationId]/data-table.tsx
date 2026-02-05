@@ -21,15 +21,19 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import CreateUserForm from "@/app/(admin-dashboard)/users/create-user/create-user-form";
+import AddTraineeForm from "./add-trainee/add-trainee-form";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  organizationId: string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  organizationId,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -67,7 +71,7 @@ export function DataTable<TData, TValue>({
             className="max-w-sm"
           />
         </div>
-        {/* add trainee button here */}
+        <AddTraineeForm organizationId={organizationId} />
       </div>
       {/* ----------- End of Filter and Add Organization ----------- */}
 
