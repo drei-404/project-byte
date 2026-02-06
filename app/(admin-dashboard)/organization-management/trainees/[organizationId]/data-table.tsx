@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import CreateUserForm from "@/app/(admin-dashboard)/users/create-user/create-user-form";
 import AddTraineeForm from "./add-trainee/add-trainee-form";
 
 interface DataTableProps<TData, TValue> {
