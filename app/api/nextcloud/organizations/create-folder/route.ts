@@ -42,7 +42,7 @@ export async function POST(req: Request) {
 
     const baseFolderPath = `byte-images/organizations/${folderName}`;
     const profilePath = `${baseFolderPath}/profile`;
-    const traineesPath = `${baseFolderPath}/trainees`;
+    const traineesPath = `${baseFolderPath}/trainee-profiles`;
 
     const auth = Buffer.from(`${email}:${password}`).toString("base64");
 
