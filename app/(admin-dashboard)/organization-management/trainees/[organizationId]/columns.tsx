@@ -48,6 +48,14 @@ export const columns: ColumnDef<TraineesRow>[] = [
   },
 
   {
+    accessorKey: "address",
+    header: () => <div className="text-center">Address</div>,
+    cell: ({ getValue }) => (
+      <div className="text-center">{getValue<string>()}</div>
+    ),
+  },
+
+  {
     id: "actions",
     size: 60,
     cell: ({ row }) => {
