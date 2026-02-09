@@ -22,20 +22,53 @@ export default function AddTraineeForm({
 }: {
   organizationId: string;
 }) {
+  const [fullName, setFullName] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const { toast } = useToast();
+  const formRef = React.useRef<HTMLFormElement | null>(null);
 
-  async function handleSubmit(formData: FormData) {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formRef.current) return;
+
+    setLoading(true);
+
     try {
-      await createTrainee(formData);
-      toast.success("User created successfully");
+      const folderForm = new FormData();
+      folderForm.append("fullName", fullName);
+      folderForm.append("organizationId", organizationId);
+
+      const folderRes = await fetch("/api/nextcloud/trainees/create-folder", {
+        method: "POST",
+        body: folderForm,
+      });
+
+      if (!folderRes.ok) {
+        const err = await folderRes.json();
+        throw new Error(err.error || "Failed to create folder");
+      }
+
+      const { folders } = await folderRes.json();
+      const folder = folders.trainee;
+
+      const traineeForm = new FormData(formRef.current);
+      traineeForm.append("folder", folder);
+
+      await createTrainee(traineeForm);
+
+      toast.success("Trainee added successfully");
+      formRef.current.reset();
       setOpen(false);
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to create user",
+        error instanceof Error ? error.message : "Failed to add trainee",
       );
+      console.log(error instanceof Error ? error.message : "Failed to add trainee",);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -47,7 +80,7 @@ export default function AddTraineeForm({
       </DialogTrigger>
 
       <DialogContent>
-        <form action={handleSubmit}>
+        <form ref={formRef} onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>Create User</DialogTitle>
             <Separator />
@@ -61,7 +94,13 @@ export default function AddTraineeForm({
             <DialogDescription className="font-medium text-foreground">
               Full Name
             </DialogDescription>
-            <Input id="fullName" name="fullName" placeholder="Full Name" />
+            <Input
+              id="fullName"
+              name="fullName"
+              placeholder="(First Name, Middle Initial, Last Name)"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+            />
 
             <DialogDescription className="font-medium text-foreground">
               Email
@@ -83,8 +122,8 @@ export default function AddTraineeForm({
             <Input id="address" name="address" placeholder="Address" />
 
             <div className="relative flex justify-end gap-4">
-              <Button type="submit">
-                <span>Add User</span>
+              <Button type="submit" disabled={loading}>
+                {loading ? "Adding Trainee..." : "Add Trainee"}
               </Button>
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>

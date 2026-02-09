@@ -18,8 +18,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Slug is required" }, { status: 400 });
     }
 
-    // Validate folder is either profile or gallery
-    if (folder !== "profile") {
+    // Validate folder is either profile or trainee-profiles
+    if (folder !== "profile" && folder !== "trainee-profiles") {
       return NextResponse.json({ error: "Invalid folder (must be 'profile')" }, { status: 400 });
     }
 
