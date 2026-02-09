@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 export type TraineesRow = {
   id: string;
@@ -24,7 +25,7 @@ export type TraineesRow = {
 export const columns: ColumnDef<TraineesRow>[] = [
   {
     accessorKey: "fullName",
-    header: () => <div className="text-center">Organization Name</div>,
+    header: () => <div className="text-center">Trainee Name</div>,
     cell: ({ getValue }) => (
       <div className="text-center">{getValue<string>()}</div>
     ),
@@ -32,7 +33,7 @@ export const columns: ColumnDef<TraineesRow>[] = [
 
   {
     accessorKey: "email",
-    header: () => <div className="text-center">Location</div>,
+    header: () => <div className="text-center">Email</div>,
     cell: ({ getValue }) => (
       <div className="text-center">{getValue<string>()}</div>
     ),
@@ -40,7 +41,7 @@ export const columns: ColumnDef<TraineesRow>[] = [
 
   {
     accessorKey: "phoneNumber",
-    header: () => <div className="text-center">Joined</div>,
+    header: () => <div className="text-center">Phone Number</div>,
     cell: ({ getValue }) => (
       <div className="text-center">{getValue<string>()}</div>
     ),
@@ -63,11 +64,11 @@ export const columns: ColumnDef<TraineesRow>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-
+              <Link href={`/organization-management/update-organization/${traineeId}`}>
               <DropdownMenuItem>
                 Update
               </DropdownMenuItem>
-
+</Link>
           </DropdownMenuContent>
         </DropdownMenu>
       );
