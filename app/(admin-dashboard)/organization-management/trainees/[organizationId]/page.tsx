@@ -24,7 +24,8 @@ export default async function Trainees({ params }: PageProps) {
     fullName: trainee.fullName,
     email: trainee.email,
     phoneNumber: trainee.phoneNumber,
-    address: trainee.address
+    address: trainee.address,
+    organizationId: trainee.organizationId,
   }));
 
   return (

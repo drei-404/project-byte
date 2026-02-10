@@ -221,3 +221,49 @@ export async function createTrainee(formData: FormData) {
 
   revalidatePath(`/organization-management/trainees/${organizationId}`);
 }
+
+export async function updateTrainee(
+  formData: FormData,
+  id: string,
+  uploadedImageUrl?: string,
+) {
+  try {
+    const fullName = formData.get("fullName") as string;
+    const email = formData.get("email") as string;
+    const phoneNumber = formData.get("phoneNumber") as string;
+    const address = formData.get("address") as string;
+
+    if (!fullName?.trim()) {
+      throw new Error("Full name is required");
+    }
+
+    if (fullName.length > 200) {
+      throw new Error("Full name too long (max 200 characters)");
+    }
+
+    const updateData: any = {
+      fullName: fullName.trim(),
+      email: email?.trim() || null,
+      phoneNumber: phoneNumber?.trim() || null,
+      address: address?.trim() || null,
+    };
+
+    if (uploadedImageUrl !== undefined) {
+      updateData.profilePhoto = uploadedImageUrl;
+    }
+
+    const trainee = await prisma.trainee.update({
+      where: { id },
+      data: updateData,
+    });
+
+    revalidatePath(
+      `/organization-management/trainees/${trainee.organizationId}`,
+    );
+  } catch (error) {
+    console.error("Update trainee error:", error);
+    throw new Error(
+      error instanceof Error ? error.message : "Failed to update trainee",
+    );
+  }
+}
