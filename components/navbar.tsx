@@ -23,6 +23,11 @@ const navMenu = [
     link: "/news"
   },
   {
+    id: "organizations",
+    title: "Organizations",
+    link: "/organizations"
+  },
+  {
     id: "courses",
     title: "Courses",
     link: "/courses"
