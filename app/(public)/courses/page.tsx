@@ -17,7 +17,7 @@ export default function page() {
             </p>
           </div>
           <Link
-            href="/#footer"
+            href="/#contact"
             className="group inline-flex items-center gap-2 rounded-xl border px-6 py-3 w-fit font-medium transition-all hover:-translate-y-0.5"
           >
             Apply for BYTE
