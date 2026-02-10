@@ -18,7 +18,7 @@ interface OrganizationCardProps {
 
 function OrganizationCard({ org }: OrganizationCardProps) {
   return (
-    <Link href={`/news/${org.id}`} className="group w-50">
+    <Link href={`/organizations/${org.id}`} className="group w-50">
       <article className="h-full border rounded-lg overflow-hidden bg-card hover:shadow-lg transition-shadow">
         {/* Image with fixed aspect ratio */}
         <div className="relative aspect-video bg-muted">
