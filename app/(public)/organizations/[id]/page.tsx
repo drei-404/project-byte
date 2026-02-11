@@ -37,23 +37,10 @@ export default async function OrganizationDetails({ params }: PageProps) {
         &larr; Back to Organizations
       </Link>
 
-      <div>
-        {/* Title */}
-        <h1 className="text-4xl font-bold mb-4">{org.name}</h1>
-
-        {/* Date */}
-        <time className="block text-sm text-muted-foreground mb-6">
-          Joined:{" "}
-          {org?.trainingStartedAt.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </time>
-
+      <div className="flex gap-8">
         {/* Featured Image */}
         {org?.profilePhoto && (
-          <div className="relative aspect-video mb-8 rounded-lg overflow-hidden">
+          <div className="relative aspect-square h-40 mb-8 rounded-lg overflow-hidden">
             <Image
               src={`/api/image-proxy?url=${encodeURIComponent(org.profilePhoto)}`}
               alt={org.name}
@@ -64,7 +51,24 @@ export default async function OrganizationDetails({ params }: PageProps) {
             />
           </div>
         )}
-      </div>
+
+        <div>
+        {/* Title */}
+        <h1 className="text-4xl font-bold mb-4">{org.name} List of Trainees</h1>
+
+        {/* Date */}
+        <time className="block text-sm text-muted-foreground mb-6">
+          Joined:{" "}
+          {org?.trainingStartedAt.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </time>
+        </div>
+        </div>
+
+
     </div>
   );
 }
