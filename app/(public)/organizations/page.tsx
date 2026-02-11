@@ -1,6 +1,4 @@
-import { Badge } from "@/components/ui/badge";
 import prisma from "@/lib/db";
-import { truncateWords } from "@/lib/format-content";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,12 +7,15 @@ const ITEMS_PER_PAGE = 15;
 interface OrganizationCardProps {
   org: {
     id: string;
+    acronym: string | null;
     name: string;
     location: string | null;
     profilePhoto: string | null;
     trainingStartedAt: Date;
   };
 }
+
+
 
 function OrganizationCard({ org }: OrganizationCardProps) {
   return (
@@ -41,7 +42,7 @@ function OrganizationCard({ org }: OrganizationCardProps) {
         {/* Content */}
         <div className="p-4">
           <h2 className="font-semibold text-lg line-clamp-2 group-hover:text-primary transition-colors">
-            {org.name}
+            {org.acronym ? org.acronym : org.name}
           </h2>
           <p className="text-xs">{org.location}</p>
           <div className="flex justify-end">
@@ -171,6 +172,7 @@ export default async function OrganizationsPage({ searchParams }: PageProps) {
       take: ITEMS_PER_PAGE,
       select: {
         id: true,
+        acronym: true,
         name: true,
         location: true,
         profilePhoto: true,

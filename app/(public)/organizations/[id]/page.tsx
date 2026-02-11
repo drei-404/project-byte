@@ -1,5 +1,4 @@
 import prisma from "@/lib/db";
-import { formatContentToHtml } from "@/lib/format-content";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,6 +15,7 @@ export default async function OrganizationDetails({ params }: PageProps) {
     select: {
       id: true,
       name: true,
+      acronym: true,
       location: true,
       trainingStartedAt: true,
       profilePhoto: true,
@@ -40,7 +40,7 @@ export default async function OrganizationDetails({ params }: PageProps) {
       <div className="flex gap-8">
         {/* Featured Image */}
         {org?.profilePhoto && (
-          <div className="relative aspect-square h-40 mb-8 rounded-lg overflow-hidden">
+          <div className="relative aspect-video h-40 rounded-lg overflow-hidden">
             <Image
               src={`/api/image-proxy?url=${encodeURIComponent(org.profilePhoto)}`}
               alt={org.name}
@@ -52,23 +52,30 @@ export default async function OrganizationDetails({ params }: PageProps) {
           </div>
         )}
 
-        <div>
-        {/* Title */}
-        <h1 className="text-4xl font-bold mb-4">{org.name} List of Trainees</h1>
+        <div className="flex flex-col justify-between w-full ">
+          <div>
+            {/* Title */}
+            <h1 className="text-4xl font-bold mb-2">
+              {org.acronym} - {org.name}
+            </h1>
 
-        {/* Date */}
-        <time className="block text-sm text-muted-foreground mb-6">
-          Joined:{" "}
-          {org?.trainingStartedAt.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </time>
+            {/* Organization Name */}
+            <h1 className="text-lg mb-4">{org.location}</h1>
+          </div>
+
+          <div className="flex justify-end">
+          {/* Date */}
+          <time className="block text-sm text-muted-foreground">
+            Joined:{" "}
+            {org?.trainingStartedAt.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </time>
+          </div>
         </div>
-        </div>
-
-
+      </div>
     </div>
   );
 }
