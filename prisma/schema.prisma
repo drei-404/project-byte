@@ -87,6 +87,7 @@ model NewsPost {
 model Organization {
   id           String  @id @default(cuid())
   profilePhoto String? @map("profile_photo")
+  acronym  String?
   name         String
   location     String
 
@@ -99,7 +100,7 @@ model Trainee {
   id           String   @id @default(cuid())
   profilePhoto String?  @map("profile_photo")
   fullName     String   @map("full_name")
-  email        String?  
+  email        String?
   phoneNumber  String?  @map("phone_number")
   address      String?
   skills       String[]
