@@ -14,6 +14,7 @@ import React from "react";
 interface UpdateOrganizationData {
   id: string;
   profilePhoto: string | null;
+  acronym: string | null;
   name: string;
   location: string;
   trainingStartedAt: Date;
@@ -24,6 +25,7 @@ interface Props {
 }
 
 export default function UpdateOrgForm({ initialData }: Props) {
+  const [acronym, setAcronym] = React.useState(initialData.acronym || "");
   const [name, setName] = React.useState(initialData.name);
   const [location, setLocation] = React.useState(initialData.location);
   const trainingStartedAt = initialData.trainingStartedAt.toLocaleDateString();
@@ -135,6 +137,22 @@ export default function UpdateOrgForm({ initialData }: Props) {
                       }}
                     />
                   </UploaderProvider>
+                </FieldGroup>
+              </FieldSet>
+
+              <FieldSet>
+                <FieldGroup>
+                  <Field>
+                    <FieldLabel>Organization Acronym</FieldLabel>
+                    <Input
+                      id="acronym"
+                      name="acronym"
+                      value={acronym}
+                      onChange={(e) => setAcronym(e.target.value)}
+                      placeholder="Organization Acronym"
+                      required
+                    />
+                  </Field>
                 </FieldGroup>
               </FieldSet>
 

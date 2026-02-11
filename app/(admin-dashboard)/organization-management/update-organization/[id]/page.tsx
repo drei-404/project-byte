@@ -13,6 +13,7 @@ export default async function UpdateOrgPage({ params }: PageProps) {
     where: { id },
     select: {
       id: true,
+      acronym: true,
       name: true,
       location: true,
       profilePhoto: true,

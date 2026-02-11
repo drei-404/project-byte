@@ -137,11 +137,11 @@ export async function updateNews(
 
 export async function createOrganization(
   formData: FormData,
-  uploadedImageUrl?: string,
 ) {
   await prisma.organization.create({
     data: {
       profilePhoto: formData.get("profilePhoto") as string,
+      acronym: formData.get("acronym") as string,
       name: formData.get("name") as string,
       location: formData.get("location") as string,
       trainingStartedAt: formData.get("joined") as string,
@@ -157,8 +157,10 @@ export async function updateOrganization(
 ) {
   try {
     // Validation
+    const acronym = formData.get("acronym") as string;
     const name = formData.get("name") as string;
     const location = formData.get("location") as string;
+
 
     if (!name?.trim()) {
       throw new Error("Organization name is required");
@@ -170,6 +172,7 @@ export async function updateOrganization(
 
     // Build update data
     const updateData: any = {
+      acronym: acronym.trim() || null,
       name: name.trim(),
       location: location?.trim() || null,
     };

@@ -69,6 +69,7 @@ export default function CreateOrgForm() {
       toast.error(
         error instanceof Error ? error.message : "Something went wrong",
       );
+      console.log(error instanceof Error ? error.message : "Something went wrong",)
     } finally {
       setLoading(false);
     }
@@ -89,6 +90,11 @@ export default function CreateOrgForm() {
           <DialogHeader>
             <DialogTitle>Add Organization</DialogTitle>
             <Separator />
+
+            <DialogDescription className="font-medium text-foreground">
+              Organization Acronym
+            </DialogDescription>
+            <Input id="acronym" name="acronym" placeholder="Organization Acronym" />
 
             <DialogDescription className="font-medium text-foreground">
               Organization Name

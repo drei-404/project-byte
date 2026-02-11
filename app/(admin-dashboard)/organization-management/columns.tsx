@@ -17,12 +17,20 @@ import Link from "next/link";
 
 export type OrganizationsRow = {
   id: string;
+  acronym: string | null;
   name: string;
   location: string;
   trainingStartedAt: string;
 };
 
 export const columns: ColumnDef<OrganizationsRow>[] = [
+  {
+    accessorKey: "acronym",
+    header: () => <div className="text-center">Acronym</div>,
+    cell: ({ getValue }) => (
+      <div className="text-center">{getValue<string>()}</div>
+    ),
+  },
   {
     accessorKey: "name",
     header: () => <div className="text-center">Organization Name</div>,
