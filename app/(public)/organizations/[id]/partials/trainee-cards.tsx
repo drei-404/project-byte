@@ -62,7 +62,7 @@ export default function TraineeCards({ trainees }: TraineeCardsProps) {
                 <h2 className="text-lg font-semibold ">{trainee.fullName}</h2>
                 <p className="text-xs font-normal">{trainee.email}</p>
                 <p className="text-xs font-normal">{trainee.phoneNumber}</p>
-                <p className="text-xs font-normal mt-2 self-end">{trainee.address}</p>
+                <p className="text-sm font-normal mt-2 self-end">{trainee.address}</p>
               </div>
             </div>
           ))}
