@@ -69,7 +69,6 @@ export default function CreateOrgForm() {
       toast.error(
         error instanceof Error ? error.message : "Something went wrong",
       );
-      console.log(error instanceof Error ? error.message : "Something went wrong",)
     } finally {
       setLoading(false);
     }
