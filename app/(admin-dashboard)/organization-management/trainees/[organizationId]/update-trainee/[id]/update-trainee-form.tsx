@@ -47,8 +47,8 @@ export const skillCategories = [
       { id: "tcp_ip", name: "TCP/IP", value: "TCP/IP" },
       {
         id: "network_troubleshooting",
-        name: "Basic Network Troubleshooting",
-        value: "Basic Network Troubleshooting",
+        name: "Network Troubleshooting",
+        value: "Network Troubleshooting",
       },
     ],
   },
@@ -78,8 +78,8 @@ export const skillCategories = [
       { id: "wordpress", name: "WordPress", value: "WordPress" },
       {
         id: "web_development",
-        name: "Basic Web Development",
-        value: "Basic Web Development",
+        name: "Web Development",
+        value: "Web Development",
       },
       { id: "programming", name: "Programming", value: "Programming" },
     ],
