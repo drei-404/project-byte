@@ -33,7 +33,7 @@ export async function POST(req: Request) {
   const params = new URLSearchParams({
     email,
     csrfToken,
-    callbackUrl: "/dashboard",
+    callbackUrl: "/admin",
   });
 
   const signInRes = await fetch(`${baseUrl}/api/auth/signin/email`, {

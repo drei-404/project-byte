@@ -1,7 +1,5 @@
 "use client";
 
-import { GalleryVerticalEnd } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,41 +10,94 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { useToast } from "@/contexts/toast-context";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [waitingForMagicLink, setWaitingForMagicLink] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const { status } = useSession();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      window.location.reload();
+    }
+  }, [status]);
+
+  useEffect(() => {
+    if (!waitingForMagicLink) return;
+
+    const checkSession = async () => {
+      const res = await fetch("/api/auth/session", { cache: "no-store" });
+      const data = await res.json();
+
+      if (data?.user) {
+        window.location.reload();
+      }
+    };
+
+    const onVisible = () => {
+      if (!document.hidden) {
+        checkSession().catch(() => {});
+      }
+    };
+
+    const interval = setInterval(() => {
+      checkSession().catch(() => {});
+    }, 2000);
+
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", onVisible);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", onVisible);
+    };
+  }, [waitingForMagicLink]);
 
   async function SingInWithEmail(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsSubmitting(true);
+    setMessage(null);
 
     try {
-    const res = await fetch("/api/auth/request-magic-link", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
+      const res = await fetch("/api/auth/request-magic-link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
 
-    if (res.status === 401) {
-      throw new Error("Unauthorized");
+      if (res.status === 401) {
+        throw new Error("Unauthorized");
+      }
+
+      if (!res.ok) {
+        throw new Error("Something went wrong");
+      }
+
+      setEmail("");
+      setWaitingForMagicLink(true);
+      setMessage(
+        "Magic link sent. After clicking it from your email, this page will continue to dashboard automatically.",
+      );
+      toast.success("Magic link sent. Check your email.");
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Something went wrong";
+      setMessage(errorMessage);
+      toast.error(errorMessage);
+    } finally {
+      setIsSubmitting(false);
     }
-
-    if (!res.ok) {
-      throw new Error("Something went wrong");
-    }
-
-    // Success — magic link sent
-    setEmail("");
-    alert("Check your email for the login link.");
-  } catch (err: any) {
-    alert(err.message);
   }
-  console.log("EMAIL:", email);
-  console.log("APP URL:", process.env.NEXT_PUBLIC_APP_URL);
-}
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -75,6 +126,7 @@ export function LoginForm({
           <Field>
             <FieldLabel htmlFor="email">Email Address</FieldLabel>
             <Input
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
               id="email"
               type="email"
@@ -83,8 +135,17 @@ export function LoginForm({
             />
           </Field>
           <Field>
-            <Button type="submit">Login</Button>
+            <Button type="submit" disabled={isSubmitting || waitingForMagicLink}>
+              {isSubmitting
+                ? "Sending..."
+                : waitingForMagicLink
+                  ? "Waiting for magic link..."
+                  : "Login"}
+            </Button>
           </Field>
+          {message && (
+            <FieldDescription className="text-center">{message}</FieldDescription>
+          )}
           <FieldSeparator></FieldSeparator>
           {/* <Field className="grid gap-4 sm:grid-cols-2">
             <Button variant="outline" type="button">
