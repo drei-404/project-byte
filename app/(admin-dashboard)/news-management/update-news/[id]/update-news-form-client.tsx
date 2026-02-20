@@ -20,6 +20,7 @@ import { UploaderProvider } from "@/components/upload/uploader-provider";
 import { slugify } from "@/lib/slugify";
 import { XIcon } from "lucide-react";
 import * as React from "react";
+import { useToast } from "@/contexts/toast-context";
 
 interface UpdateNewsData {
   id: string;
@@ -44,6 +45,7 @@ export default function UpdateNewsFormClient({ initialData }: Props) {
   const [isPublished, setIsPublished] = React.useState(initialData.status);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const { toast } = useToast();
 
   const handleFileChange = React.useCallback(({ allFiles }: { allFiles: any[] }) => {
     const file = allFiles[0];
@@ -151,10 +153,12 @@ export default function UpdateNewsFormClient({ initialData }: Props) {
         imagesToDelete.length > 0 ? imagesToDelete : undefined
       );
 
-      alert("News updated successfully!");
+      toast.success("News updated successfully!");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Update failed");
-      console.error("Update failed:", err);
+      const message =
+        err instanceof Error ? err.message : "Something went wrong";
+      setError(message);
+      toast.error(message);
     } finally {
       setIsSubmitting(false);
     }

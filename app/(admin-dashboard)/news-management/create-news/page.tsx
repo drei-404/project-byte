@@ -13,11 +13,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { createNews } from "@/actions/actions";
+import { useToast } from "@/contexts/toast-context";
 
 export default function CreateNewsForm() {
   const [title, setTitle] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const formRef = React.useRef<HTMLFormElement | null>(null);
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,11 +50,13 @@ export default function CreateNewsForm() {
 
       await createNews(newsForm);
 
-      alert("News created successfully!");
+      toast.success("News created successfully!");
       formRef.current.reset();
       setTitle("");
     } catch (error: any) {
-      alert(error.message || "Something went wrong");
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong",
+      );
     } finally {
       setLoading(false);
     }
