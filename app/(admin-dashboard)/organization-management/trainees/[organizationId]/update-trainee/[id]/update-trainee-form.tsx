@@ -9,6 +9,7 @@ import { UploaderProvider } from "@/components/upload/uploader-provider";
 import { useToast } from "@/contexts/toast-context";
 import { useRouter } from "next/navigation";
 import React from "react";
+import MultiSelect from "./partials/checkbox-input";
 
 interface UpdateTraineeData {
   id: string;
@@ -17,12 +18,83 @@ interface UpdateTraineeData {
   email: string | null;
   phoneNumber: string | null;
   address: string | null;
+  skills: string[];
   organizationId: string;
 }
 
 interface Props {
   initialData: UpdateTraineeData;
 }
+
+export const skillCategories = [
+  {
+    category: "Linux & Servers",
+    skills: [
+      { id: "linux", name: "Linux", value: "Linux" },
+      { id: "linux_commands", name: "Linux Commands", value: "Linux Commands" },
+      { id: "linux_server", name: "Linux Server", value: "Linux Server" },
+      {
+        id: "server_administration",
+        name: "Server Administration",
+        value: "Server Administration",
+      },
+    ],
+  },
+  {
+    category: "Networking",
+    skills: [
+      { id: "networking", name: "Networking", value: "Networking" },
+      { id: "tcp_ip", name: "TCP/IP", value: "TCP/IP" },
+      {
+        id: "network_troubleshooting",
+        name: "Basic Network Troubleshooting",
+        value: "Basic Network Troubleshooting",
+      },
+    ],
+  },
+  {
+    category: "Computer Hardware",
+    skills: [
+      {
+        id: "computer_assembly",
+        name: "Computer Assembly",
+        value: "Computer Assembly",
+      },
+      {
+        id: "computer_disassembly",
+        name: "Computer Disassembly",
+        value: "Computer Disassembly",
+      },
+      {
+        id: "hardware_troubleshooting",
+        name: "Hardware Troubleshooting",
+        value: "Hardware Troubleshooting",
+      },
+    ],
+  },
+  {
+    category: "Web & Programming",
+    skills: [
+      { id: "wordpress", name: "WordPress", value: "WordPress" },
+      {
+        id: "web_development",
+        name: "Basic Web Development",
+        value: "Basic Web Development",
+      },
+      { id: "programming", name: "Programming", value: "Programming" },
+    ],
+  },
+  {
+    category: "Artificial Intelligence",
+    skills: [
+      {
+        id: "artificial_intelligence",
+        name: "Artificial Intelligence (AI)",
+        value: "Artificial Intelligence (AI)",
+      },
+    ],
+  },
+];
 
 export default function UpdateTraineeForm({ initialData }: Props) {
   const [fullName, setFullName] = React.useState(initialData.fullName);
@@ -31,6 +103,9 @@ export default function UpdateTraineeForm({ initialData }: Props) {
     initialData.phoneNumber ?? "",
   );
   const [address, setAddress] = React.useState(initialData.address ?? "");
+  const [selectedSkills, setSelectedSkills] = React.useState<string[]>(
+    initialData.skills ?? [],
+  );
   const [selectedPhoto, setSelectedPhoto] = React.useState<File | null>(null);
   const [isUpdating, setIsUpdating] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -77,11 +152,7 @@ export default function UpdateTraineeForm({ initialData }: Props) {
         finalImageUrl = url;
       }
 
-      await updateTrainee(
-        formData,
-        initialData.id,
-        finalImageUrl || undefined,
-      );
+      await updateTrainee(formData, initialData.id, finalImageUrl || undefined);
 
       toast.success("Trainee updated successfully!");
     } catch (err) {
@@ -195,6 +266,21 @@ export default function UpdateTraineeForm({ initialData }: Props) {
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     placeholder="Address"
+                  />
+                </Field>
+              </FieldGroup>
+            </FieldSet>
+
+            <FieldSet>
+              <FieldGroup>
+                <Field>
+                  <FieldLabel>Skills</FieldLabel>
+                  <MultiSelect
+                    categories={skillCategories}
+                    placeholder="Select skills..."
+                    name="skills"
+                    value={selectedSkills}
+                    onChange={setSelectedSkills}
                   />
                 </Field>
               </FieldGroup>

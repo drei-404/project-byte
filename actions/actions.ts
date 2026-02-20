@@ -205,6 +205,11 @@ export async function createTrainee(formData: FormData) {
   const phoneNumber = formData.get("phoneNumber") as string;
   const address = formData.get("address") as string;
   const organizationId = formData.get("organizationId") as string;
+  const skills = formData
+    .getAll("skills")
+    .filter((skill): skill is string => typeof skill === "string")
+    .map((skill) => skill.trim())
+    .filter(Boolean);
 
   if (!organizationId) {
     throw new Error("Organization ID is required");
@@ -216,6 +221,7 @@ export async function createTrainee(formData: FormData) {
       email,
       phoneNumber,
       address,
+      skills,
       organization: {
         connect: { id: organizationId },
       },
@@ -235,6 +241,11 @@ export async function updateTrainee(
     const email = formData.get("email") as string;
     const phoneNumber = formData.get("phoneNumber") as string;
     const address = formData.get("address") as string;
+    const skills = formData
+      .getAll("skills")
+      .filter((skill): skill is string => typeof skill === "string")
+      .map((skill) => skill.trim())
+      .filter(Boolean);
 
     if (!fullName?.trim()) {
       throw new Error("Full name is required");
@@ -249,6 +260,7 @@ export async function updateTrainee(
       email: email?.trim() || null,
       phoneNumber: phoneNumber?.trim() || null,
       address: address?.trim() || null,
+      skills,
     };
 
     if (uploadedImageUrl !== undefined) {

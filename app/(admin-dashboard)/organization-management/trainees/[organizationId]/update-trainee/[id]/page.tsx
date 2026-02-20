@@ -18,6 +18,7 @@ export default async function UpdateTraineePage({ params }: PageProps) {
       email: true,
       phoneNumber: true,
       address: true,
+      skills: true,
       organizationId: true,
     },
   });
