@@ -3,13 +3,26 @@ import React from "react";
 import { AppSidebar } from "@/components/app-sidebar";
 import AdminBreadcrumb from "@/components/admin-breadcrumb";
 import { Separator } from "@/components/ui/separator";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = async ({ children }: { children: React.ReactNode }) => {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect("/admin");
+  }
+
+  if (session.user?.isSuspended) {
+    redirect("/suspended");
+  }
+
   return (
     <>
       <Provider>
