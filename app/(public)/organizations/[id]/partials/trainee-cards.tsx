@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 
 export type Trainee = {
@@ -15,59 +19,123 @@ export type TraineeCardsProps = {
 };
 
 export default function TraineeCards({ trainees }: TraineeCardsProps) {
+  const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
+
   if (trainees.length === 0) {
     return (
-      <section className="container mx-auto px-4 max-w-4xl">
-        <h2 className="text-2xl font-semibold mb-4">Trainees</h2>
+      <section className="container mx-auto max-w-4xl px-4">
+        <h2 className="mb-4 text-2xl font-semibold">Trainees</h2>
         <p className="text-sm text-muted-foreground">No trainees yet.</p>
       </section>
     );
   }
 
   return (
-    <>
-      <div className="relative mx-auto my-10 flex max-w-300 flex-col items-start justify-center gap-10 pb-12">
-        <h2 className="text-2xl font-semibold">Trainees</h2>
+    <div className="relative mx-auto my-10 flex max-w-300 flex-col items-start justify-center gap-10 pb-12">
+      <h2 className="text-2xl font-semibold">Trainees</h2>
 
-        {/* Profile Cards */}
-        <div className="container grid grid-cols-4 gap-4 w-full drop-shadow-xl">
-          {trainees.map((trainee) => (
-            <div
-              key={trainee.id}
-              className="container flex flex-col items-center gap-3 px-6 py-4 bg-background rounded-4xl border"
-            >
-              {/* Image Container */}
-              <div className="relative aspect-square h-60 shrink-0 overflow-hidden">
-                {trainee.profilePhoto ? (
-                  <Image
-                    src={`/api/image-proxy?url=${encodeURIComponent(trainee.profilePhoto)}`}
-                    alt={trainee.fullName}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300 z-10"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 20vw"
-                    unoptimized
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center text-muted-foreground z-10">
-                    No image
+      <div className="container grid w-full grid-cols-4 items-start gap-4 drop-shadow-xl">
+        {trainees.map((trainee) => {
+          const isExpanded = expandedCardId === trainee.id;
+          const previewSkills = trainee.skills.slice(0, 3);
+          const hiddenCount = Math.max(trainee.skills.length - 3, 0);
+
+          return (
+            <div key={trainee.id} className="relative">
+              <div
+                onClick={() => setExpandedCardId(isExpanded ? null : trainee.id)}
+                className="container flex cursor-pointer flex-col items-center gap-3 rounded-4xl border bg-background px-6 py-4 transition-shadow duration-300 hover:shadow-md"
+              >
+                <div className="relative aspect-square h-60 shrink-0 overflow-hidden">
+                  {trainee.profilePhoto ? (
+                    <Image
+                      src={`/api/image-proxy?url=${encodeURIComponent(trainee.profilePhoto)}`}
+                      alt={trainee.fullName}
+                      fill
+                      className="z-10 object-cover"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 20vw"
+                      unoptimized
+                    />
+                  ) : (
+                    <div className="absolute inset-0 z-10 flex items-center justify-center text-muted-foreground">
+                      No image
+                    </div>
+                  )}
+                  <div className="absolute inset-x-0 bottom-0 z-0 h-30 rounded-t-2xl bg-[#C2E2FA]" />
+                </div>
+
+                <div className="relative mb-2 flex w-full flex-col items-start text-center">
+                  <h2 className="text-lg font-semibold">{trainee.fullName}</h2>
+                  <p className="text-xs font-normal">{trainee.email}</p>
+                  <p className="text-xs font-normal">{trainee.phoneNumber}</p>
+
+                  <div className="my-4 flex w-full flex-wrap gap-1">
+                    {previewSkills.map((skill, index) => (
+                      <Badge
+                        key={`${trainee.id}-preview-${index}`}
+                        variant="outline"
+                        asChild
+                        className="max-w-full whitespace-normal break-words"
+                      >
+                        <span className="font-normal">{skill}</span>
+                      </Badge>
+                    ))}
+                    {hiddenCount > 0 && <Badge variant="outline">+{hiddenCount} more</Badge>}
                   </div>
-                )}
-                <div
-                  id="profile-bg"
-                  className="absolute inset-x-0 bottom-0 h-30 bg-[#C2E2FA] z-0 rounded-t-2xl"
-                />
+
+                  <p className="mt-2 self-end text-sm font-normal">{trainee.address}</p>
+                </div>
               </div>
 
-              <div className="relative flex flex-col items-start w-full text-center mb-2">
-                <h2 className="text-lg font-semibold ">{trainee.fullName}</h2>
-                <p className="text-xs font-normal">{trainee.email}</p>
-                <p className="text-xs font-normal">{trainee.phoneNumber}</p>
-                <p className="text-sm font-normal mt-2 self-end">{trainee.address}</p>
-              </div>
+              {isExpanded && (
+                <div
+                  onClick={() => setExpandedCardId(null)}
+                  className="absolute left-0 top-0 z-30 container flex w-full cursor-pointer flex-col items-center gap-3 rounded-4xl border bg-background px-6 py-4 shadow-xl ring-1 ring-border transition-all duration-300"
+                >
+                  <div className="relative aspect-square h-60 shrink-0 overflow-hidden">
+                    {trainee.profilePhoto ? (
+                      <Image
+                        src={`/api/image-proxy?url=${encodeURIComponent(trainee.profilePhoto)}`}
+                        alt={trainee.fullName}
+                        fill
+                        className="z-10 object-cover"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 20vw"
+                        unoptimized
+                      />
+                    ) : (
+                      <div className="absolute inset-0 z-10 flex items-center justify-center text-muted-foreground">
+                        No image
+                      </div>
+                    )}
+                    <div className="absolute inset-x-0 bottom-0 z-0 h-30 rounded-t-2xl bg-[#C2E2FA]" />
+                  </div>
+
+                  <div className="relative mb-2 flex w-full flex-col items-start text-center">
+                    <h2 className="text-lg font-semibold">{trainee.fullName}</h2>
+                    <p className="text-xs font-normal">{trainee.email}</p>
+                    <p className="text-xs font-normal">{trainee.phoneNumber}</p>
+
+                    <div className="my-4 flex w-full flex-wrap gap-1">
+                      {trainee.skills.map((skill, index) => (
+                        <Badge
+                          key={`${trainee.id}-expanded-${index}`}
+                          variant="outline"
+                          asChild
+                          className="max-w-full whitespace-normal break-words"
+                        >
+                          <span className="font-normal">{skill}</span>
+                        </Badge>
+                      ))}
+                    </div>
+
+                    <p className="mt-2 self-end text-sm font-normal">{trainee.address}</p>
+                  </div>
+                </div>
+              )}
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
-    </>
+    </div>
   );
 }
