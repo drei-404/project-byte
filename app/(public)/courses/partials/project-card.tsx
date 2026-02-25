@@ -13,6 +13,21 @@ const projectItems = [
     title: "WordPress Development",
     tags: ["WordPress", "Elementor"],
   },
+  {
+    image: "/images/courses-and-projects/projects/local-ai-model.webp",
+    title: "Building and Running AI Models Locally",
+    tags: ["AI", "LLM"],
+  },
+  {
+    image: "/images/courses-and-projects/projects/frontend-development.webp",
+    title: "Frontend Development with Vite + React",
+    tags: ["Vite", "React", "TypeScript"],
+  },
+  {
+    image: "/images/courses-and-projects/projects/build-server-environment.webp",
+    title: "Building a Functional Server Environment",
+    tags: ["Linux Server", "Nginx", "Self Hosted Infrastructure"],
+  },
 ];
 
 export function ProjectCard() {
