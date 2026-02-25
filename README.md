@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Project BYTE
 
-## Getting Started
+Project BYTE is a Next.js 16 application with:
 
-First, run the development server:
+- Public-facing pages for courses, organizations, and news
+- Admin dashboard for managing users, news, organizations, and trainees
+- Magic-link admin authentication with NextAuth
+- PostgreSQL + Prisma for persistent data
+- Nextcloud-backed file upload flows for media assets
+
+## Clone From GitHub (Fail-Safe)
+
+Use either HTTPS or SSH.
+
+### Option A: HTTPS (recommended if SSH is not configured)
+
+```bash
+git clone https://github.com/<your-org-or-user>/project-byte.git
+cd project-byte
+```
+
+### Option B: SSH (recommended if your SSH key is already added to GitHub)
+
+```bash
+git clone git@github.com:<your-org-or-user>/project-byte.git
+cd project-byte
+```
+
+## Prerequisites
+
+- Node.js 20+
+- npm 10+
+- PostgreSQL (local instance or hosted)
+- Access to SMTP credentials (for magic-link auth)
+- Access to Nextcloud credentials (for upload APIs)
+
+## First-Time Setup
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Create environment file:
+
+```bash
+cp .env.local.example .env.local
+```
+
+If `.env.local.example` is not present, create `.env.local` manually and add:
+
+```dotenv
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/DB_NAME"
+
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="replace-with-a-long-random-secret"
+
+SMTP_HOST="smtp.example.com"
+SMTP_PORT="587"
+SMTP_USER="smtp-user"
+SMTP_PASS="smtp-password"
+SMTP_FROM="Project BYTE <no-reply@example.com>"
+
+NEXTCLOUD_BASE_API_URL="https://nextcloud.example.com/remote.php/dav/files"
+NEXTCLOUD_EMAIL="nextcloud-account-email@example.com"
+NEXTCLOUD_USERNAME="nextcloud-username"
+NEXTCLOUD_APP_PASSWORD="nextcloud-app-password"
+```
+
+3. Sync database schema:
+
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+4. Start local development:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+App runs at `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Common Commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev    # start local dev server
+npm run build  # production build
+npm run start  # run production server
+npm run lint   # run ESLint
+```
 
-## Learn More
+## Clone/Setup Troubleshooting
 
-To learn more about Next.js, take a look at the following resources:
+- `Repository not found`:
+  - Confirm repo path and permissions.
+  - If private, make sure you are logged in to GitHub and have access.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `Permission denied (publickey)` with SSH:
+  - Your SSH key is not configured in GitHub. Use HTTPS clone or register your key.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `npm install` fails:
+  - Verify Node and npm versions.
+  - Remove `node_modules` and `package-lock.json`, then run `npm install` again.
 
-## Deploy on Vercel
+- Auth redirects do not work:
+  - Ensure `NEXTAUTH_URL` matches your local URL.
+  - Ensure `NEXTAUTH_SECRET` is set.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Upload endpoints fail:
+  - Re-check `NEXTCLOUD_*` variables.
+  - Confirm Nextcloud app password and base API URL are valid.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Database connection errors:
+  - Validate `DATABASE_URL`.
+  - Ensure PostgreSQL is reachable and credentials are correct.
+
+## Notes
+
+- `.env*` is gitignored; keep secrets in local or secure deployment environments.
+- Prisma client is generated into `lib/generated/prisma`.
