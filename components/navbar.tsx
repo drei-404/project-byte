@@ -11,45 +11,55 @@ import {
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils";
 
+const navMenu = [
+  {
+    id: "home",
+    title: "Home",
+    link: "/"
+  },
+  {
+    id: "news",
+    title: "News",
+    link: "/news"
+  },
+  {
+    id: "organizations",
+    title: "Organizations",
+    link: "/organizations"
+  },
+  {
+    id: "courses",
+    title: "Courses",
+    link: "/courses"
+  },
+  {
+    id: "contact-us",
+    title: "Contact Us",
+    link: "/#contact"
+  },
+]
+
 
 export function Navbar() {
 
   return (
     <NavigationMenu>
       <NavigationMenuList className="flex-wrap">
-        <NavigationMenuItem className="transparent">
+       {navMenu.map((item) => {
+
+        return (
+        <NavigationMenuItem key={item.id} className="transparent">
           <NavigationMenuLink asChild className={cn(
             navigationMenuTriggerStyle(),
             "bg-transparent"
           )}>
-            <Link href="/about">Home</Link>
+            <Link href={item.link}>{item.title}</Link>
           </NavigationMenuLink>
 
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={cn(
-            navigationMenuTriggerStyle(),
-            "bg-transparent"
-          )}>
-            <Link href="/about">News</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={cn(
-            navigationMenuTriggerStyle(),
-            "bg-transparent"
-          )}>
-            <Link href="/about">Our Partners</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={cn(
-            navigationMenuTriggerStyle(),
-            "bg-transparent"
-          )}>
-            <Link href="/about">Contact Us</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
+        );
+        })}
+
       </NavigationMenuList>
     </NavigationMenu>
   )
