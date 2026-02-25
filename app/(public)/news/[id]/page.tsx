@@ -69,7 +69,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
         {/* Content with paragraphs */}
         {post.content && (
-          <div
+          <h2
             className="prose prose-lg max-w-none mb-8 mx-12 text-justify space-y-6"
             dangerouslySetInnerHTML={{
               __html: formatContentToHtml(post.content),
@@ -80,7 +80,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
         {/* Image Gallery */}
         {post.imageGallery.length > 0 && (
           <section className="mt-12">
-            <h2 className="text-2xl font-semibold mb-4">Gallery</h2>
+            <h1 className="text-2xl font-semibold mb-4">Gallery</h1>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {post.imageGallery.map((url, index) => (
                 <div

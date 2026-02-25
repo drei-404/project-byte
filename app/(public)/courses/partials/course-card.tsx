@@ -93,9 +93,9 @@ export default function CourseCard() {
                 </div>
               </div>
               <div className="w-full md:w-7/12">
-                <div className="flex justify-between items-start text-lg font-medium">
+                <h1 className="flex justify-between items-start text-lg font-medium">
                   {item.title}
-                </div>
+                </h1>
                 <div className="text-sm flex items-center mt-2">{item.difficulty}</div>
                 <div className="flex items-center mt-2 gap-1">
                   {item.tags.map((tag, tagIndex) => {
@@ -108,9 +108,9 @@ export default function CourseCard() {
                 </div>
               </div>
             </div>
-            <div className="text-gray-400 text-sm mt-3 text-justify">
+            <h2 className="text-gray-400 text-sm mt-3 text-justify">
               {item.context}
-            </div>
+            </h2>
           </div>
         );
       })}

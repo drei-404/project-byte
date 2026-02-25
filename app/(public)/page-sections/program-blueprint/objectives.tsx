@@ -32,11 +32,11 @@ export default function Objectives() {
           <h1 className="text-4xl font-medium text-[#154091] text-shadow-lg">
             Our Objectives
           </h1>
-          <div className="text-sm">
+          <p className="text-sm">
             A set of strategic objectives aimed at strengthening ICT
             competencies, supporting workforce readiness, and enabling
             innovation across public and private sectors.
-          </div>
+          </p>
         </div>
 
         <ul className="space-y-4">
@@ -45,12 +45,12 @@ export default function Objectives() {
 
             return (
               <div key={index} className="flex-1">
-                <div className="">
+                <h1>
                   <li className="flex items-start gap-3 text-lg leading-relaxed text-justify">
                     <Icon className="h-6 w-6 mt-1.5 shrink-0 text-foreground border-2 rounded-4xl p-1" />
                     {item.context}
                   </li>
-                </div>
+                </h1>
               </div>
             );
           })}

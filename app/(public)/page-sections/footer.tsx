@@ -40,9 +40,9 @@ export default function Footer() {
           <div className="hidden lg:block"></div>
 
           <div id="contact" className="flex flex-col space-y-6">
-            <h3 className="text-2xl font-medium">
+            <h1 className="text-2xl font-medium">
               Contact Us <span className="text-[#edd153]">Here!</span>
-            </h3>
+            </h1>
             <p className="text-xs leading-relaxed text-foreground sm:text-sm">
               Aspiring BYTE participants may apply through the provided channel
               and contact us here for further details and support.

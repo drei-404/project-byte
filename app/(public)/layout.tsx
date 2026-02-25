@@ -15,14 +15,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         draggable={false}
       >
         <div className="flex justify-between sticky top-0 z-20">
-          <div className="flex items-center text-xl text-[#154091] font-bold">
+          <h1 className="flex items-center text-xl text-[#154091] font-bold">
             <img
               src={"/images/byte-logo-raw-nobg.png"}
               className="h-12 w-12"
               alt="BYTE Logo"
             />
             BYTE
-          </div>
+          </h1>
 
           <div className="flex gap-4 items-center">
             <Navbar />

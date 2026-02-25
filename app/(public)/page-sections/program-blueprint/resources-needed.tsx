@@ -38,12 +38,12 @@ export default function ResourcesNeeded() {
           {resources.map((item, index) => {
             return (
               <div key={index} className="flex-1">
-                <div className="ml-6 ">
+                <h2 className="ml-6 ">
                   <li className="flex items-start gap-3 text-lg leading-relaxed text-justify">
                     <Square className="h-4 w-4 mt-2 shrink-0 " />
                     {item.context}
                   </li>
-                </div>
+                </h2>
               </div>
             );
           })}

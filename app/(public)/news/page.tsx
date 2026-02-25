@@ -39,13 +39,13 @@ function NewsCard({ post }: NewsCardProps) {
 
         {/* Content */}
         <div className="p-4">
-          <h2 className="font-semibold text-lg line-clamp-2 group-hover:text-primary transition-colors">
+          <h1 className="font-semibold text-lg line-clamp-2 group-hover:text-primary transition-colors">
             {post.title}
-          </h2>
+          </h1>
           {post.content && (
-            <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
+            <h2 className="mt-2 text-sm text-muted-foreground line-clamp-2">
               {truncateWords(post.content, 15)}
-            </p>
+            </h2>
           )}
           <time className="mt-2 block text-xs text-muted-foreground">
             {post.createdAt.toLocaleDateString()}
@@ -220,4 +220,3 @@ export default async function NewsPage({ searchParams }: PageProps) {
     </div>
   );
 }
-  

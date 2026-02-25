@@ -41,9 +41,9 @@ function OrganizationCard({ org }: OrganizationCardProps) {
 
         {/* Content */}
         <div className="p-4">
-          <h2 className="font-semibold text-lg line-clamp-2 group-hover:text-primary transition-colors">
+          <h1 className="font-semibold text-lg line-clamp-2 group-hover:text-primary transition-colors">
             {org.acronym ? org.acronym : org.name}
-          </h2>
+          </h1>
           <p className="text-xs">{org.location}</p>
           <div className="flex justify-end">
             <time className="mt-2 block text-xs text-muted-foreground ">
