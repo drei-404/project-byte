@@ -35,7 +35,7 @@ const navMenu = [
   {
     id: "contact-us",
     title: "Contact Us",
-    link: "/#contact"
+    link: "/contact"
   },
 ]
 
